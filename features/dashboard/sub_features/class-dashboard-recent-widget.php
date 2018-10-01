@@ -1,0 +1,204 @@
+<?php
+/**
+ * Class Dashboard_Recent_Widget
+ */
+class Aucor_Core_Dashboard_Recent_Widget extends Aucor_Core_Sub_Feature {
+
+  public function setup() {
+
+    // var: key
+    $this->set('key', 'aucor_core_dashboard_recent_widget');
+
+    // var: name
+    $this->set('name', 'Adds a widget displaying recent activity on the site to the dashboard');
+
+    // var: is_active
+    $this->set('is_active', true);
+
+  }
+
+  /**
+   * Run feature
+   */
+  public function run() {
+    add_action('wp_dashboard_setup', array('Aucor_Core_Dashboard_Recent_Widget', 'register_aucor_recent_dashboard_widget'));
+    add_action('admin_enqueue_scripts', function ($hook) {
+      if ($hook == 'index.php') {
+        wp_enqueue_style('aucor_core-dashboard-widget-styles', AUCOR_CORE_DIR . '/dist/styles/main.css');
+      }
+    });
+  }
+
+  /**
+   * Register the widget
+   */
+  public static function register_aucor_recent_dashboard_widget() {
+    global $wp_meta_boxes;
+
+    wp_add_dashboard_widget('aucor_recent_dashboard_widget', __('Activity'), array('Aucor_Core_Dashboard_Recent_Widget', 'aucor_recent_dashboard_widget_display'));
+
+    $dashboard = $wp_meta_boxes['dashboard']['normal']['core'];
+    $my_widget = array('aucor_recent_dashboard_widget' => $dashboard['aucor_recent_dashboard_widget']);
+
+    unset($dashboard['aucor_recent_dashboard_widget']);
+
+    $sorted_dashboard = array_merge($my_widget, $dashboard);
+    $wp_meta_boxes['dashboard']['normal']['core'] = $sorted_dashboard;
+  }
+
+  /**
+   * Build the widget to display
+   */
+  public static function aucor_recent_dashboard_widget_display() {
+    $current_user_id = intval(get_current_user_id());
+    $current_user_obj = get_user_by('ID', $current_user_id);
+    $post_types = get_post_types();
+    $skip_post_types = array('attachment', 'revision', 'acf-field', 'acf-field-group', 'nav_menu_item', 'polylang_mo');
+    $post_types = array_diff($post_types, $skip_post_types);
+    $date_format = get_option('date_format');
+    $time_format = get_option('time_format');
+    ?>
+
+    <div class="aucor-recent-section">
+      <h3><?php echo esc_attr__('My content and changes', 'aucor-core'); ?></h3>
+
+    <?php
+
+      $user_posts = array();
+      global $wpdb;
+
+      /*
+       * GET REVISIONS BY CURRENT USER
+       * ==============================
+       * Use $wpdb because there is no clean way to get revisions. We group the posts by post_parent because
+       * multiple revisions might point to same post. We only need the post_parent ID because that points us
+       * to the original post_type post that we will need. Grouping messes up post_modified but order seems
+       * to be correct. This will break in multi-sites, I think.
+       */
+
+      $my_revisions = $wpdb->get_results("SELECT post_parent FROM $wpdb->posts WHERE post_author = $current_user_id AND post_type = 'revision' GROUP BY post_parent ORDER BY post_modified DESC LIMIT 4");
+
+      foreach ($my_revisions as $revision) {
+        array_push($user_posts, get_post($revision->post_parent));
+      }
+
+      // recently published
+      $args = array(
+        'post_type' => $post_types,
+        'author' => $current_user_id,
+        'posts_per_page' => 4,
+        'post_status' => 'any',
+        'orderby' => 'date',
+        'order' => 'DESC',
+        'no_found_rows' => true, // no pagination
+        'update_post_term_cache' => false, // no tax
+        'update_post_meta_cache' => false, // no meta
+      );
+
+      $user_query = new WP_Query( $args );
+
+      while ($user_query->have_posts()) : $user_query->the_post();
+        $post_is_unique = true;
+        foreach ($user_posts as $user_post) {
+          if ($user_query->post->ID == $user_post->ID) {
+            $post_is_unique = false;
+          }
+        }
+        if ($post_is_unique) {
+          $post_revisions = wp_get_post_revisions($user_query->post->ID, '');
+          if (!empty($post_revisions)) {
+            $most_recent_revision_id = max(array_keys($post_revisions));
+            $user_query->post->post_modified = $post_revisions[$most_recent_revision_id]->post_modified;
+          }
+          array_push($user_posts, $user_query->post);
+        }
+      endwhile;
+
+      // order posts from nearest to oldest
+      function aucor_core_order_posts_array_by_modified_date($a, $b) {
+          return strcmp(strtotime($a->post_modified), strtotime($b->post_modified));
+      }
+
+      usort($user_posts, 'aucor_core_order_posts_array_by_modified_date');
+      $user_posts = array_reverse($user_posts);
+
+      if (!empty($user_posts)) :
+        $limit = (count($user_posts) > 4) ? 4 : count($user_posts);
+        echo '<ul>';
+        for ($i=0; $i < $limit; $i++) {
+          $obj = get_post_type_object($user_posts[$i]->post_type);
+          $title = $user_posts[$i]->post_title . ' (' . $obj->labels->singular_name . ')';
+          $modified_time = date_create($user_posts[$i]->post_modified);
+
+        ?>
+        <li><span class="aucor-recent-time"><?php echo date_format($modified_time, "$date_format $time_format" ); ?></span><span class="aucor-recent-link"><?php edit_post_link($title, '', '', $user_posts[$i]->ID); ?></span></li>
+        <?php
+        }
+        echo '</ul>';
+      else :
+        echo '<p>' . esc_attr__('No recent content', 'aucor-core') . '</p>';
+      endif;
+      ?>
+
+    </div>
+    <div class="aucor-recent-section">
+      <h3><?php echo esc_attr__('Recent drafts', 'aucor-core'); ?></h3>
+      <?php
+
+      $args = array(
+        'post_type' => $post_types,
+        'posts_per_page' => 4,
+        'orderby' => 'modified',
+        'order' => 'DESC',
+        'post_status' => 'draft',
+        'no_found_rows' => true, // no pagination
+        'update_post_term_cache' => false, // no tax
+        'update_post_meta_cache' => false, // no meta
+      );
+
+      $query = new WP_Query( $args );
+      if ($query->have_posts()) :
+        echo '<ul>';
+        while ($query->have_posts()) : $query->the_post();
+          $obj = get_post_type_object(get_post_type());
+          $title = $query->post->post_title . ' (' . $obj->labels->singular_name . ')';
+        ?>
+          <li><span class="aucor-recent-time"><?php the_time("$date_format $time_format"); ?></span><span class="aucor_starter_plugin-recent-link"><?php edit_post_link($title, '', '', $query->post->ID); ?></span></li>
+          <?php
+        endwhile;
+        echo '</ul>';
+      else :
+        echo '<p>' . esc_attr__('No recent drafts', 'aucor-core') . '</p>';
+      endif;
+     ?>
+    </div>
+
+    <div class="aucor-recent-section">
+      <h3><?php echo esc_attr__('Recent edits', 'aucor-core'); ?></h3>
+      <?php
+      $args = array(
+        'post_type' => $post_types,
+        'posts_per_page' => 4,
+        'orderby' => 'modified',
+        'order' => 'DESC',
+        'no_found_rows' => true, // no pagination
+        'update_post_term_cache' => false, // no tax
+        'update_post_meta_cache' => false, // no meta
+      );
+      $query = new WP_Query($args);
+      echo '<ul>';
+      while ($query->have_posts()) : $query->the_post();
+        $obj = get_post_type_object(get_post_type());
+        $title = $query->post->post_title . ' (' . $obj->labels->singular_name . ')';
+      ?>
+        <li><span class="aucor-recent-time"><?php echo get_the_modified_date("$date_format $time_format"); ?></span><span class="aucor-recent-link"><?php edit_post_link($title, '', '', $query->post->ID); ?></span></li>
+        <?php
+      endwhile;
+      echo '</ul>';
+      ?>
+    </div>
+
+    <?php
+  }
+
+}
