@@ -21,43 +21,43 @@ Directory: `/features/`
 Features (containing subfeatures) ranging from security settings to speed optimizations and dashboard cleanup.
 
 - admin
-  - gallery
-  - image-links
-  - login
-  - admin menu cleanup
-  - notifications
-  - profile cleanup
-  - remove customizer
+    - gallery
+    - image-links
+    - login
+    - admin menu cleanup
+    - notifications
+    - profile cleanup
+    - remove customizer
 - classic-editor
-  - tinymce
+    - tinymce
 - dashboard
-  - cleanup
-  - recent widget
-  - remove panels
+    - cleanup
+    - recent widget
+    - remove panels
 - front-end
-  - excerpt
-  - html fixes
+    - excerpt
+    - html fixes
 - localization
-  - polyfill
-  - string translations
+    - polyfill
+    - string translations
 - plugins
-  - acf
-  - gravityforms
-  - redirection
-  - seo
-  - yoast
+    - acf
+    - gravityforms
+    - redirection
+    - seo
+    - yoast
 - security
-  - disable file edit
-  - disable unfiltered html
-  - head cleanup
-  - hide users
-  - remove comment moderation
-  - remove commenting
+    - disable file edit
+    - disable unfiltered html
+    - head cleanup
+    - hide users
+    - remove comment moderation
+    - remove commenting
 - speed
-  - limit revisions
-  - move jquery
-  - remove emojis
-  - remove metabox
+    - limit revisions
+    - move jquery
+    - remove emojis
+    - remove metabox
 
 ### Debugging
 
