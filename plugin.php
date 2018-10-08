@@ -118,3 +118,13 @@ class Aucor_Core {
 add_action('plugins_loaded', function() {
   $aucor_core = new Aucor_Core;
 });
+
+// kernl automatic updates
+require 'plugin_update_check.php';
+$MyUpdateChecker = new PluginUpdateChecker_2_0 (
+    'https://kernl.us/api/v1/updates/5bbb25a4828ce15993553f7a/',
+    __FILE__,
+    'aucor-core',
+    1
+);
+// $MyUpdateChecker->license = "aKernlLicenseKey";  <---- Optional!
