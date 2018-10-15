@@ -24,6 +24,7 @@ class Aucor_Core_Plugins_Yoast extends Aucor_Core_Sub_Feature {
     add_action('admin_init', array('Aucor_Core_Plugins_Yoast', 'aucor_core_remove_wpseo_notifications'));
     add_filter('wpseo_metabox_prio', array('Aucor_Core_Plugins_Yoast', 'aucor_core_seo_metabox_prio'));
     add_filter('the_seo_framework_metabox_priority', array('Aucor_Core_Plugins_Yoast', 'aucor_core_seo_metabox_prio'));
+    add_filter( 'wpseo_opengraph_image_size', array('Aucor_Core_Plugins_Yoast', 'aucor_core_filter_wpseo_opengraph_image_size'), 5, 1);
   }
 
   /**
@@ -44,6 +45,18 @@ class Aucor_Core_Plugins_Yoast extends Aucor_Core_Sub_Feature {
    */
   public static function aucor_core_seo_metabox_prio() {
     return 'low';
+  }
+
+  /**
+   * Default og:image size (mainly to prevent huge default images)
+   *
+   * @return string image size
+   */
+   public static function aucor_core_filter_wpseo_opengraph_image_size($original) {
+    if ($original == null) {
+      $original = 'large';
+    }
+    return $original;
   }
 
 }
