@@ -126,8 +126,11 @@ class Aucor_Core_Dashboard_Recent_Widget extends Aucor_Core_Sub_Feature {
         $limit = (count($user_posts) > 4) ? 4 : count($user_posts);
         echo '<ul>';
         for ($i=0; $i < $limit; $i++) {
+          $title = $user_posts[$i]->post_title;
           $obj = get_post_type_object($user_posts[$i]->post_type);
-          $title = $user_posts[$i]->post_title . ' (' . $obj->labels->singular_name . ')';
+          if (is_object($obj)) {
+            $title .= ' (' . $obj->labels->singular_name . ')';
+          }
           $modified_time = date_create($user_posts[$i]->post_modified);
 
         ?>
