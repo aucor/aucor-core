@@ -2,8 +2,7 @@
 /**
  * Plugin Name:    Aucor Core
  * Description:    The Aucor brand's core functionality
- * Version:        1.0
- * Base Version:   1.0.0
+ * Version:        1.0.2
  * Author:         Aucor Oy
  * Author URI:     https://www.aucor.fi
  * Text Domain:    aucor-core
@@ -117,6 +116,11 @@ class Aucor_Core {
 // init
 add_action('plugins_loaded', function() {
   $aucor_core = new Aucor_Core;
+});
+
+// load translations
+add_action('plugins_loaded', function () {
+  load_plugin_textdomain( 'aucor-core', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 });
 
 // kernl automatic updates

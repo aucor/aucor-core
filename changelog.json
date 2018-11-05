@@ -1,5 +1,11 @@
 {
   "1.0.0" : {
     "description": "Init"
+  },
+  "1.0.1" : {
+    "description": "Added a Yoast modification feature preventing huge default images"
+  },
+  "1.0.2" : {
+    "description": "Internationalization added through .mo and .po files and provided translations for Finnish and Swedish for the dashboard widgets"
   }
 }
