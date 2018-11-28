@@ -10,5 +10,8 @@
   },
   "1.0.3" : {
     "description": "Added a check to the Dashboard Recent Widget to prevent non-object type errors if a CPT for some reason isn't present"
+  },
+  "1.0.4" : {
+    "description": "Added an action to the string translation subfeature to correctly register strings"
   }
 }

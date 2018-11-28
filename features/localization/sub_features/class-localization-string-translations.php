@@ -25,12 +25,15 @@ class Aucor_Core_Localization_String_Translations extends Aucor_Core_Sub_Feature
     /**
      * String translations
      */
-    if (function_exists('pll_register_string')) {
-      $strings = apply_filters('aucor_core_pll_register_strings', array());
-      foreach ($strings as $key => $value) {
-        pll_register_string($key, $value, 'Aucor Core');
+    add_action('init', function() {
+      if (function_exists('pll_register_string')) {
+        $group_name = get_bloginfo();
+        $strings = apply_filters('aucor_core_pll_register_strings', array());
+        foreach ($strings as $key => $value) {
+          pll_register_string($key, $value, $group_name);
+        }
       }
-    }
+    });
 
   }
 
