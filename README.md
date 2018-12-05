@@ -58,6 +58,8 @@ Features (containing subfeatures) ranging from security settings to speed optimi
     - move jquery
     - remove emojis
     - remove metabox
+- tests
+    - style guide
 
 ### Debugging
 
@@ -67,7 +69,18 @@ Custom function to help debugging.
 
 ## Configuration (optional)
 
-### How to configure
+### "Active" subfeatures
+- The *style guide* subfeature overrides the WP function `the_content()` with default markup for testing the most common tag styles, when the GET parameter '?aucor_core=styleguide' is found in the url. You can however replace this markup with a filter:
+```
+add_filter('aucor_core_custom_markup', function($content) {
+  $content = 'custom markup';
+  return $content;
+});
+```
 
-1. If you haven't already, download the Aucor Starter Plugin from [Bitbucket](https://bitbucket.org) and follow it's installation instructions
-1. The fetures listed above can all be disabled if necessary with filters: `add_filter('[insert feature key]', '__return_false');`
+### Disable feature/subfeature
+By default all the features/subfeatures are on, but you can disable the ones you don't want with a filter:
+```
+add_filter('feature/subfeature key', '__return_false');
+```
+Note that if you disable a feature, all underlying subfeatures will be disabled as well.

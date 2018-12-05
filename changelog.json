@@ -13,5 +13,8 @@
   },
   "1.0.4" : {
     "description": "Added an action to the string translation subfeature to correctly register strings"
+  },
+  "1.0.5" : {
+    "description": "Added a new 'Style Guide' subfeature and a 'Tests' feature to parent it, updated README"
   }
 }

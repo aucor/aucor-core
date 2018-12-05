@@ -2,7 +2,7 @@
 /**
  * Plugin Name:    Aucor Core
  * Description:    The Aucor brand's core functionality
- * Version:        1.0.3
+ * Version:        1.0.5
  * Author:         Aucor Oy
  * Author URI:     https://www.aucor.fi
  * Text Domain:    aucor-core
@@ -31,6 +31,7 @@ class Aucor_Core {
     require_once 'features/plugins/class-plugins.php';
     require_once 'features/security/class-security.php';
     require_once 'features/speed/class-speed.php';
+    require_once 'features/tests/class-tests.php';
 
     /* Sub features
     ----------------------------------------------- */
@@ -83,6 +84,9 @@ class Aucor_Core {
     require_once 'features/speed/sub_features/class-speed-remove-emojis.php';
     require_once 'features/speed/sub_features/class-speed-remove-metabox.php';
 
+    // tests
+    require_once 'features/tests/sub_features/class-tests-style-guide.php';
+
     /* Helpers
     ----------------------------------------------- */
 
@@ -100,6 +104,7 @@ class Aucor_Core {
       'aucor_core_plugins'        => new Aucor_Core_Plugins,
       'aucor_core_security'       => new Aucor_Core_Security,
       'aucor_core_speed'          => new Aucor_Core_Speed,
+      'aucor_core_tests'          => new Aucor_Core_Tests,
     );
 
   }
