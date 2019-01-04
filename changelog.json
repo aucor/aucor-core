@@ -19,5 +19,8 @@
   },
   "1.0.6" : {
     "description": "Improved the Style Guide subfeature's default markup"
+  },
+  "1.0.7" : {
+    "description": "Changed the default og:image function to always return 'large' regardless of the input value and attached the Twitter version of the wpseo filter to it"
   }
 }
