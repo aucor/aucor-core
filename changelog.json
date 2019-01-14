@@ -22,5 +22,8 @@
   },
   "1.0.7" : {
     "description": "Changed the default og:image function to always return 'large' regardless of the input value and attached the Twitter version of the wpseo filter to it"
+  },
+  "1.0.8" : {
+    "description": "Change dashboard recent widget visuals to match with new widget dashboard aucor and position from normal to side"
   }
 }

@@ -35,15 +35,7 @@ class Aucor_Core_Dashboard_Recent_Widget extends Aucor_Core_Sub_Feature {
   public static function register_aucor_recent_dashboard_widget() {
     global $wp_meta_boxes;
 
-    wp_add_dashboard_widget('aucor_recent_dashboard_widget', __('Activity'), array('Aucor_Core_Dashboard_Recent_Widget', 'aucor_recent_dashboard_widget_display'));
-
-    $dashboard = $wp_meta_boxes['dashboard']['normal']['core'];
-    $my_widget = array('aucor_recent_dashboard_widget' => $dashboard['aucor_recent_dashboard_widget']);
-
-    unset($dashboard['aucor_recent_dashboard_widget']);
-
-    $sorted_dashboard = array_merge($my_widget, $dashboard);
-    $wp_meta_boxes['dashboard']['normal']['core'] = $sorted_dashboard;
+    add_meta_box( 'aucor_recent_dashboard_widget', __('Activity'), array('Aucor_Core_Dashboard_Recent_Widget', 'aucor_recent_dashboard_widget_display'), 'dashboard', 'side', 'high' );
   }
 
   /**
@@ -57,12 +49,17 @@ class Aucor_Core_Dashboard_Recent_Widget extends Aucor_Core_Sub_Feature {
     $post_types = array_diff($post_types, $skip_post_types);
     $date_format = get_option('date_format');
     $time_format = get_option('time_format');
-    ?>
+    //Date format to j.n.Y and time format to H:i
+    if (!strstr($date_format, '.Y')) {
+      $date_format = 'j.n.Y';
+      $time_format = 'H:i';
+    }
+    /*?>
 
     <div class="aucor-recent-section">
       <h3><?php echo esc_attr__('My content and changes', 'aucor-core'); ?></h3>
 
-    <?php
+    <?php*/
 
       $user_posts = array();
       global $wpdb;
@@ -123,6 +120,10 @@ class Aucor_Core_Dashboard_Recent_Widget extends Aucor_Core_Sub_Feature {
       $user_posts = array_reverse($user_posts);
 
       if (!empty($user_posts)) :
+        ?>
+          <div class="aucor-recent-section">
+          <h3><?php echo esc_attr__('My content and changes', 'aucor-core'); ?></h3>
+        <?php
         $limit = (count($user_posts) > 4) ? 4 : count($user_posts);
         echo '<ul>';
         for ($i=0; $i < $limit; $i++) {
@@ -137,16 +138,17 @@ class Aucor_Core_Dashboard_Recent_Widget extends Aucor_Core_Sub_Feature {
         <li><span class="aucor-recent-time"><?php echo date_format($modified_time, "$date_format $time_format" ); ?></span><span class="aucor-recent-link"><?php edit_post_link($title, '', '', $user_posts[$i]->ID); ?></span></li>
         <?php
         }
-        echo '</ul>';
-      else :
-        echo '<p>' . esc_attr__('No recent content', 'aucor-core') . '</p>';
+        ?>
+        </ul>
+        </div>
+        <?php
       endif;
-      ?>
+      /*?>
 
-    </div>
+
     <div class="aucor-recent-section">
       <h3><?php echo esc_attr__('Recent drafts', 'aucor-core'); ?></h3>
-      <?php
+      <?php*/
 
       $args = array(
         'post_type' => $post_types,
@@ -161,6 +163,10 @@ class Aucor_Core_Dashboard_Recent_Widget extends Aucor_Core_Sub_Feature {
 
       $query = new WP_Query( $args );
       if ($query->have_posts()) :
+        ?>
+        <div class="aucor-recent-section">
+        <h3><?php echo esc_attr__('Recent drafts', 'aucor-core'); ?></h3>
+      <?php
         echo '<ul>';
         while ($query->have_posts()) : $query->the_post();
           $obj = get_post_type_object(get_post_type());
@@ -169,12 +175,12 @@ class Aucor_Core_Dashboard_Recent_Widget extends Aucor_Core_Sub_Feature {
           <li><span class="aucor-recent-time"><?php the_time("$date_format $time_format"); ?></span><span class="aucor_starter_plugin-recent-link"><?php edit_post_link($title, '', '', $query->post->ID); ?></span></li>
           <?php
         endwhile;
-        echo '</ul>';
-      else :
-        echo '<p>' . esc_attr__('No recent drafts', 'aucor-core') . '</p>';
+        ?>
+        </ul>
+        </div>
+        <?php
       endif;
      ?>
-    </div>
 
     <div class="aucor-recent-section">
       <h3><?php echo esc_attr__('Recent edits', 'aucor-core'); ?></h3>

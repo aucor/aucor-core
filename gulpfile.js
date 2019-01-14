@@ -209,7 +209,6 @@ gulp.task('watch', function() {
       '{inc,partials,template-tags}/**/*.php',
       '*.php'
     ],
-    proxy: manifest.devUrl(),
     snippetOptions: {
       whitelist: ['/wp-admin/admin-ajax.php'],
       blacklist: ['/wp-admin/**']

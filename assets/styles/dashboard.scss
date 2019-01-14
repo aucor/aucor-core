@@ -1,3 +1,12 @@
+/* 1. Variables
+-------------------------------------------------- */
+
+$pink: #C82986;
+$white: #fff;
+$blue: #42a0d9;
+$blue-dark: #293942;
+$dark: #293942;
+
 /* Recently edited widget
 -------------------------------------------------- */
 
@@ -5,6 +14,7 @@
   .inside {
     padding: 0;
     margin: 0;
+    font-size: .875rem;
   }
   li {
     display: block;
@@ -20,6 +30,7 @@
   }
   p {
     color: #72777c;
+    font-size: .875rem;
   }
   li {
     @media(max-width: 420px) {
@@ -30,11 +41,18 @@
     @media(max-width: 420px) {
       min-width: 250px;
     }
+    a {
+      color: $blue;
+    }
   }
   .aucor-recent-section {
     display: block;
-    padding: .75rem .75rem;
+    padding: 1rem;
     border-bottom: 1px solid #eee;
+    h3 {
+      font-weight: 500;
+      color: $dark;
+    }
   }
   .aucor-recent-section:last-of-type {
     border-bottom: 0;
