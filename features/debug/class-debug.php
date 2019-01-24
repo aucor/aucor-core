@@ -1,16 +1,16 @@
 <?php
 /**
- * Class Tests
+ * Class Debug
  */
-class Aucor_Core_Tests extends Aucor_Core_Feature {
+class Aucor_Core_Debug extends Aucor_Core_Feature {
 
   public function setup() {
 
     // var: key
-    $this->set('key', 'aucor_core_tests');
+    $this->set('key', 'aucor_core_debug');
 
     // var: name
-    $this->set('name', 'Tests');
+    $this->set('name', 'Debug');
 
     // var: is_active
     $this->set('is_active', true);
@@ -24,7 +24,8 @@ class Aucor_Core_Tests extends Aucor_Core_Feature {
 
     // var: sub_features
     $this->set('sub_features', array(
-      'aucor_core_tests_style_guide'  => new Aucor_Core_Tests_Style_Guide,
+      'aucor_core_debug_style_guide'   => new Aucor_Core_Debug_Style_Guide,
+      'aucor_core_debug_wireframe'     => new Aucor_Core_Debug_Wireframe,
     ));
 
   }

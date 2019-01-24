@@ -2,7 +2,7 @@
 /**
  * Plugin Name:    Aucor Core
  * Description:    The Aucor brand's core functionality
- * Version:        1.0.8
+ * Version:        1.0.9
  * Author:         Aucor Oy
  * Author URI:     https://www.aucor.fi
  * Text Domain:    aucor-core
@@ -26,12 +26,12 @@ class Aucor_Core {
     require_once 'features/admin/class-admin.php';
     require_once 'features/classic-editor/class-classic-editor.php';
     require_once 'features/dashboard/class-dashboard.php';
+    require_once 'features/debug/class-debug.php';
     require_once 'features/front-end/class-front-end.php';
     require_once 'features/localization/class-localization.php';
     require_once 'features/plugins/class-plugins.php';
     require_once 'features/security/class-security.php';
     require_once 'features/speed/class-speed.php';
-    require_once 'features/tests/class-tests.php';
 
     /* Sub features
     ----------------------------------------------- */
@@ -54,6 +54,10 @@ class Aucor_Core {
     require_once 'features/dashboard/sub_features/class-dashboard-cleanup.php';
     require_once 'features/dashboard/sub_features/class-dashboard-recent-widget.php';
     require_once 'features/dashboard/sub_features/class-dashboard-remove-panels.php';
+
+    // debug
+    require_once 'features/debug/sub_features/class-debug-style-guide.php';
+    require_once 'features/debug/sub_features/class-debug-wireframe.php';
 
     // front-end
     require_once 'features/front-end/sub_features/class-front-end-excerpt.php';
@@ -84,13 +88,10 @@ class Aucor_Core {
     require_once 'features/speed/sub_features/class-speed-remove-emojis.php';
     require_once 'features/speed/sub_features/class-speed-remove-metabox.php';
 
-    // tests
-    require_once 'features/tests/sub_features/class-tests-style-guide.php';
-
-    /* Helpers
+    /* Helper functions
     ----------------------------------------------- */
 
-    require_once 'helpers/debug.php';
+    require_once 'helpers.php';
 
     /* Initialize features
     ----------------------------------------------- */
@@ -104,7 +105,7 @@ class Aucor_Core {
       'aucor_core_plugins'        => new Aucor_Core_Plugins,
       'aucor_core_security'       => new Aucor_Core_Security,
       'aucor_core_speed'          => new Aucor_Core_Speed,
-      'aucor_core_tests'          => new Aucor_Core_Tests,
+      'aucor_core_debug'          => new Aucor_Core_Debug,
     );
 
   }

@@ -1,17 +1,15 @@
 <?php
 /**
- * Debugging functions
- *
- * @package aucor-core
+ * Helper functions
  */
 
 /**
- * Send debugging messages when WP_DEBUG is enbaled
+ * Send debugging messages when WP_DEBUG is enbaled.
  *
  * @param string $msg the message for error
  * @param array  $functions the functions used
  */
-function aucor_core_debug($msg, $functions) {
+function aucor_core_debug_msg($msg, $functions) {
   if (WP_DEBUG === true) {
 
     // init warning to get source

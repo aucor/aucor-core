@@ -25,5 +25,8 @@
   },
   "1.0.8" : {
     "description": "Change dashboard recent widget visuals to match with new widget dashboard aucor and position from normal to side"
+  },
+  "1.0.9" : {
+    "description": "Renamed 'tests' feature 'debug' and added a wireframe-mode as a debug subfeature. Helpers is now it's own file"
   }
 }

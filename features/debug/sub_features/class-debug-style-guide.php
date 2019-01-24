@@ -1,13 +1,13 @@
 <?php
 /**
- * Class Tests_Style_Guide
+ * Class Debug_Style_Guide
  */
-class Aucor_Core_Tests_Style_Guide extends Aucor_Core_Sub_Feature {
+class Aucor_Core_Debug_Style_Guide extends Aucor_Core_Sub_Feature {
 
   public function setup() {
 
     // var: key
-    $this->set('key', 'aucor_core_tests_style_guide');
+    $this->set('key', 'aucor_core_debug_style_guide');
 
     // var: name
     $this->set('name', 'Add test markup to a page');
@@ -21,7 +21,7 @@ class Aucor_Core_Tests_Style_Guide extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_filter('the_content', array('Aucor_Core_Tests_Style_Guide', 'aucor_core_style_guide_markup'));
+    add_filter('the_content', array('Aucor_Core_Debug_Style_Guide', 'aucor_core_style_guide_markup'));
   }
 
   /**

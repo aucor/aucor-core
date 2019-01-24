@@ -63,7 +63,7 @@ if (!function_exists('ask__')) {
     }
 
     // debug missing strings
-    aucor_core_debug('Localization error - Missing string by key {' . $key . '}', array('ask__', 'ask_e'));
+    aucor_core_debug_msg('Localization error - Missing string by key {' . $key . '}', array('ask__', 'ask_e'));
 
     return $key;
 
@@ -100,7 +100,8 @@ if (!function_exists('asv__')) {
   function asv__($value, $lang = null) {
 
     // debug missing strings
-    aucor_core_debug('Localization error - Missing string by value {' . $value . '}', array('asv__', 'asv_e'));
+    aucor_core_debug_msg('Localization error - Missing string by value {' . $value . '}', array('asv__', 'asv_e'));
+
     if ($lang === null) {
       return pll__($value);
     } else {

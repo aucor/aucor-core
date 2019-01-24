@@ -58,14 +58,15 @@ Features (containing subfeatures) ranging from security settings to speed optimi
     - move jquery
     - remove emojis
     - remove metabox
-- tests
+- debug
     - style guide
+    - wireframe
 
-### Debugging
+### Helper functions
 
-Directory: `/helpers/`
+Directory: root
 
-Custom function to help debugging.
+Contains functions, like enhanced (internal) debugging, for all features/subfeatures to use
 
 ## Configuration (optional)
 
@@ -77,6 +78,7 @@ add_filter('aucor_core_custom_markup', function($content) {
   return $content;
 });
 ```
+- The *wireframe* subfeature adds outlines to all elements on page to help with visual debugging, when the GET parameter '?ac-debug=wireframe' is found in the url.
 
 ### Disable feature/subfeature
 By default all the features/subfeatures are on, but you can disable the ones you don't want with a filter:
