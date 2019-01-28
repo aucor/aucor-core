@@ -83,6 +83,6 @@ add_filter('aucor_core_custom_markup', function($content) {
 ### Disable feature/subfeature
 By default all the features/subfeatures are on, but you can disable the ones you don't want with a filter:
 ```
-add_filter('feature/subfeature key', '__return_false');
+add_filter('feature or subfeature key', '__return_false');
 ```
 Note that if you disable a feature, all underlying subfeatures will be disabled as well.
