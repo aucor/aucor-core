@@ -78,7 +78,7 @@ add_filter('aucor_core_custom_markup', function($content) {
   return $content;
 });
 ```
-- The *wireframe* subfeature adds outlines to all elements on page to help with visual debugging, when the GET parameter '?ac-debug=wireframe' is found in the url.
+- The *wireframe* subfeature adds outlines to all elements on page to help with visual debugging, when the GET parameter '?ac-debug=wireframe' is found in the url. It also appends '?ac-debug=wireframe' to the href value in all anchor tags on the page to keep the feature enabled during navigation.
 
 ### Disable feature/subfeature
 By default all the features/subfeatures are on, but you can disable the ones you don't want with a filter:

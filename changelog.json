@@ -28,5 +28,8 @@
   },
   "1.0.9" : {
     "description": "Renamed 'tests' feature 'debug' and added a wireframe-mode as a debug subfeature. Helpers is now it's own file"
+  },
+  "1.0.10" : {
+    "description": "The wireframe feature now also appends the '?ac-debug=wireframe' parameter to the href value in all anchor tags on the page to keep the feature enabled during navigation"
   }
 }
