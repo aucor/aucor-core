@@ -1,10 +1,13 @@
 # Aucor Core
-Core plugin for WordPress projects. The plugin contains the features and settings generally deemed to be the most commonly used in all projects. It is meant to be used together with [aucor-starter](https://bitbucket.org/aucor/aucor-starter/overview) and [aucor-starter-plugin](https://bitbucket.org/aucor/aucor-starter-plugin/src/master/), but functions on it's own as well. Use the aucor-starter-plugin to configure the specs of this plugin.
+Core plugin for WordPress projects. The plugin contains the features and settings generally deemed to be the most commonly used in all projects. It is meant to be used together with [aucor-starter](https://bitbucket.org/aucor/aucor-starter/overview) but functions on it's own as well. Use the site specific plugin to configure the specs of this plugin.
 
 ## How to install
 
-1. Download this repository from bitbucket.com (from left sidebar)
+1. Download this repository
 1. Extract into /plugins/
+1. Activate
+
+(When released, will be available on WordPress.org)
 
 ## Contents
 
@@ -71,7 +74,7 @@ Contains functions, like enhanced (internal) debugging, for all features/subfeat
 ## Configuration (optional)
 
 ### "Active" subfeatures
-- The *style guide* subfeature overrides the WP function `the_content()` with default markup for testing the most common tag styles, when the GET parameter '?aucor_core=styleguide' is found in the url. You can however replace this markup with a filter:
+- The *style guide* subfeature overrides the WP function `the_content()` with default markup for testing the most common tag styles, when the GET parameter '?ac-debug=styleguide' is found in the url. You can however replace this markup with a filter:
 ```
 add_filter('aucor_core_custom_markup', function($content) {
   $content = 'custom markup';

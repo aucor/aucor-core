@@ -33,7 +33,7 @@ class Aucor_Core_Debug_Style_Guide extends Aucor_Core_Sub_Feature {
    * @return string style guide or custom markup
    */
   public static function aucor_core_style_guide_markup($content) {
-    if (isset($_GET['aucor_core']) && $_GET['aucor_core'] == 'style_guide') {
+    if (isset($_GET['ac-debug']) && $_GET['ac-debug'] == 'styleguide') {
       // get wp default large and medium image sizes
       $img_medium_w = get_option('medium_size_w');
       $img_large_w = get_option('large_size_w');
