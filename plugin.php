@@ -2,7 +2,7 @@
 /**
  * Plugin Name:    Aucor Core
  * Description:    The Aucor brand's core functionality
- * Version:        1.0.10
+ * Version:        1.0.11
  * Author:         Aucor Oy
  * Author URI:     https://www.aucor.fi
  * Text Domain:    aucor-core

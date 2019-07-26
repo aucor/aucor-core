@@ -31,5 +31,8 @@
   },
   "1.0.10" : {
     "description": "The wireframe feature now also appends the '?ac-debug=wireframe' parameter to the href value in all anchor tags on the page to keep the feature enabled during navigation"
+  },
+  "1.0.11" : {
+    "description": "Harmonized the Style Guide subfeature's activation parameter with the Wireframe one and corrected some p tags in the test markup"
   }
 }

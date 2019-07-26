@@ -58,7 +58,7 @@ class Aucor_Core_Debug_Style_Guide extends Aucor_Core_Sub_Feature {
 
       <h5>Heading 5</h5>
 
-      </p>Paragraph - Curabitur nibh sem, semper quis pellentesque a, mollis non elit. Mauris varius dolor ut eros placerat, ac ultricies urna rhoncus. Aliquam purus libero, gravida et laoreet in, pretium eget urna.</p>
+      <p>Paragraph - Curabitur nibh sem, semper quis pellentesque a, mollis non elit. Mauris varius dolor ut eros placerat, ac ultricies urna rhoncus. Aliquam purus libero, gravida et laoreet in, pretium eget urna.</p>
 
       <p>Paragraph - Vestibulum nec ligula nulla. Nullam sed iaculis velit, dapibus aliquam felis. Praesent quis egestas justo.</p>
 
@@ -119,7 +119,7 @@ class Aucor_Core_Debug_Style_Guide extends Aucor_Core_Sub_Feature {
 
       <p>Paragraph - Aenean nec maximus augue. Nullam ac dapibus urna. Nunc dignissim magna leo. Duis at convallis nisi. Pellentesque eu congue odio. Proin imperdiet eros a tincidunt dignissim. Nam euismod id metus vitae maximus. Vestibulum in nulla vulputate, vehicula odio elementum, tincidunt risus.</p>
 
-      </p>Paragraph - Curabitur nibh sem, semper quis pellentesque a, mollis non elit. Mauris varius dolor ut eros placerat, ac ultricies urna rhoncus. Aliquam purus libero, gravida et laoreet in, pretium eget urna.</p>
+      <p>Paragraph - Curabitur nibh sem, semper quis pellentesque a, mollis non elit. Mauris varius dolor ut eros placerat, ac ultricies urna rhoncus. Aliquam purus libero, gravida et laoreet in, pretium eget urna.</p>
 
       <p>Paragraph - Aenean nec maximus augue. Nullam ac dapibus urna. Nunc dignissim magna leo. Duis at convallis nisi. Pellentesque eu congue odio. Proin imperdiet eros a tincidunt dignissim. Nam euismod id metus vitae maximus. Vestibulum in nulla vulputate, vehicula odio elementum, tincidunt risus.</p>
 
