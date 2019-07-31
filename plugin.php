@@ -2,7 +2,7 @@
 /**
  * Plugin Name:    Aucor Core
  * Description:    The Aucor brand's core functionality
- * Version:        1.0.11
+ * Version:        1.0.2
  * Author:         Aucor Oy
  * Author URI:     https://www.aucor.fi
  * Text Domain:    aucor-core
@@ -128,13 +128,3 @@ add_action('plugins_loaded', function() {
 add_action('plugins_loaded', function () {
   load_plugin_textdomain( 'aucor-core', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 });
-
-// kernl automatic updates
-require 'plugin_update_check.php';
-$MyUpdateChecker = new PluginUpdateChecker_2_0 (
-    'https://kernl.us/api/v1/updates/5bbb25a4828ce15993553f7a/',
-    __FILE__,
-    'aucor-core',
-    1
-);
-// $MyUpdateChecker->license = "aKernlLicenseKey";  <---- Optional!
