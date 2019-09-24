@@ -84,8 +84,18 @@ add_filter('aucor_core_custom_markup', function($content) {
 - The *wireframe* subfeature adds outlines to all elements on page to help with visual debugging, when the GET parameter '?ac-debug=wireframe' is found in the url. It also appends '?ac-debug=wireframe' to the href value in all anchor tags on the page to keep the feature enabled during navigation.
 
 ### Disable feature/subfeature
-By default all the features/subfeatures are on, but you can disable the ones you don't want with a filter:
+By default all the features/subfeatures are on but you can disable the ones you don't want with filters. This need to be done in it’s own plugin however. This is because the hooks that the features latch onto are executed earlier than the theme setup, so filters in e.g. functions.php won’t have any effect. Here is a minimal code snippet you can use to disable features:
+
 ```
-add_filter('feature or subfeature key', '__return_false');
+<?php
+/**
+ * Plugin Name: YOUR PLUGIN NAME
+ */
+
+// disable a feature in Aucor Core
+add_filter('feature or subfeature key', '__return_false');
 ```
-Note that if you disable a feature, all underlying subfeatures will be disabled as well.
+
+Put this snippet in a file called plugin.php, in a directory named [YOUR PLUGIN NAME], and place the directory under the /plugins/ directory with your other plugins.
+
+Note that if you disable a feature, all underlying subfeatures will be disabled as well.
