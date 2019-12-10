@@ -67,6 +67,7 @@ plugins:
 
 security:
 
+* disable admin email check
 * disable file edit
 * disable unfiltered html
 * head cleanup

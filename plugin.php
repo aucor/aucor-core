@@ -2,7 +2,7 @@
 /**
  * Plugin Name:    Aucor Core
  * Description:    The Aucor brand's core functionality
- * Version:        1.0.12
+ * Version:        1.0.13
  * Author:         Aucor Oy
  * Author URI:     https://www.aucor.fi
  * Text Domain:    aucor-core
@@ -75,6 +75,7 @@ class Aucor_Core {
     require_once 'features/plugins/sub_features/class-plugins-yoast.php';
 
     // security
+    require_once 'features/security/sub_features/class-security-disable-admin-email-check.php';
     require_once 'features/security/sub_features/class-security-disable-file-edit.php';
     require_once 'features/security/sub_features/class-security-disable-unfiltered-html.php';
     require_once 'features/security/sub_features/class-security-head-cleanup.php';

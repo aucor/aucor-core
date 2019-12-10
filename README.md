@@ -50,6 +50,7 @@ Features (containing subfeatures) ranging from security settings to speed optimi
     - seo
     - yoast
 - security
+    - disable admin email check
     - disable file edit
     - disable unfiltered html
     - head cleanup
