@@ -8,9 +8,13 @@
 	convertWarningsToExceptions="true"
 	>
 	<testsuites>
-		<testsuite>
+		<testsuite name="features">
 			<directory prefix="test-" suffix=".php">./tests/</directory>
-			<exclude>./tests/test-sample.php</exclude>
 		</testsuite>
 	</testsuites>
+  <filter>
+    <whitelist>
+      <directory suffix=".php">./features/</directory>
+    </whitelist>
+  </filter>
 </phpunit>
