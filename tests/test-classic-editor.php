@@ -21,7 +21,7 @@ class ClassicEditorTest extends WP_UnitTestCase {
 
   // test CE feature
 
-  public function test_admin() {
+  public function test_ce() {
     $class = $this->ce;
     // key
     $this->assertNotEmpty(

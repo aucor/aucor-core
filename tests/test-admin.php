@@ -206,29 +206,20 @@ class AdminTest extends WP_UnitTestCase {
     /**
      * Run
      * - create an admin user and set it as the current user
-     * - mock args (the callback function of the action we want to remove)
      * - run the callback function
-     * - check if the callback is present by comparing to mock values (should be)
+     * - check if the callback is present by comparing to the callbacks priority (should be)
      * - create a user with insufficient capabilities and set it as the current user
      * - run the callback function
-     * - check if the callback is present by it's key (should not be)
+     * - check if the callback is present by by comparing the callbacks priority (should not be, returns false)
      */
-    global $wp_filter;
 
     $user_admin = $this->factory->user->create(array('role' => 'administrator'));
     wp_set_current_user($user_admin);
 
-    $args = array(
-      'update_nag' => array(
-        'function'      => 'update_nag',
-        'accepted_args' => 1
-      )
-    );
-
     $class->aucor_core_remove_update_nags_for_non_admins();
 
-    $this->assertSame(
-      $args, $wp_filter['admin_notices']->callbacks[3]
+    $this->assertEquals(
+      3, has_action('admin_notices', 'update_nag')
     );
 
     $user_sub = $this->factory->user->create(array('role' => 'subscriber'));
@@ -236,8 +227,8 @@ class AdminTest extends WP_UnitTestCase {
 
     $class->aucor_core_remove_update_nags_for_non_admins();
 
-    $this->assertArrayNotHasKey(
-      3, $wp_filter['admin_notices']->callbacks
+    $this->assertFalse(
+      has_action('admin_notices', 'update_nag')
     );
   }
 
