@@ -25,7 +25,7 @@ class Aucor_Core_Debug_Style_Guide extends Aucor_Core_Sub_Feature {
   }
 
   /**
-   * Add style guide test markup if the GET parameter "?aucor_core=style_guide" is present in the url.
+   * Add style guide test markup if the GET parameter "?ac-debug=styleguide" is present in the url.
    * The aucor_core_custom_markup filter makes it possible to replace the default with custom markup
    *
    * @param string content from the_content()
