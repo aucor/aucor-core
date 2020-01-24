@@ -139,6 +139,9 @@ class DebugTest extends WP_UnitTestCase {
     $this->assertStringContainsString(
       'outline: 1px solid !important;', $output
     );
+    $this->assertStringContainsString(
+      "links[i].href += '?ac-debug=wireframe';", $output
+    );
   }
 
 }
