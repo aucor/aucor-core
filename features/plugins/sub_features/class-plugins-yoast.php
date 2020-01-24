@@ -32,11 +32,10 @@ class Aucor_Core_Plugins_Yoast extends Aucor_Core_Sub_Feature {
    * Remove Yoast notifications
    */
   public static function aucor_core_remove_wpseo_notifications() {
-    if (!class_exists('Yoast_Notification_Center')) {
-      return;
+    if (class_exists('Yoast_Notification_Center')) {
+      remove_action('admin_notices', array(Yoast_Notification_Center::get(), 'display_notifications'));
+      remove_action('all_admin_notices', array(Yoast_Notification_Center::get(), 'display_notifications'));
     }
-    remove_action('admin_notices', array(Yoast_Notification_Center::get(), 'display_notifications'));
-    remove_action('all_admin_notices', array(Yoast_Notification_Center::get(), 'display_notifications'));
   }
 
   /**
