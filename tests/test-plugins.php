@@ -77,7 +77,7 @@ class PluginsTest extends WP_UnitTestCase {
       $class->aucor_core_hide_acf_from_nonadmins(true)
     );
 
-    $user_sub = $this->factory->user->create();
+    $user_sub = $this->factory->user->create(array('role' => 'subscriber'));
     wp_set_current_user($user_sub);
 
     $this->assertFalse(
@@ -102,10 +102,14 @@ class PluginsTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - the sub feature uses the WP __return_true or _false functions in GF filters,
-     * so nothing really to test
+     * - check that the filters have the __return function hooked to them
      */
-
+    $this->assertSame(
+      10, has_filter('gform_tabindex', '__return_false')
+    );
+    $this->assertSame(
+      10, has_filter('gform_init_scripts_footer', '__return_true')
+    );
   }
 
   public function test_plugins_redirection() {
