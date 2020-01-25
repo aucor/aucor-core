@@ -262,4 +262,132 @@ class SecurityTest extends WP_UnitTestCase {
     );
   }
 
+  public function test_security_remove_comment_moderation() {
+    $class = $this->security->get_sub_features()['aucor_core_security_remove_comment_moderation'];
+    // key
+    $this->assertNotEmpty(
+       $class->get_key()
+    );
+    // name
+    $this->assertNotEmpty(
+      $class->get_name()
+    );
+    // status
+    $this->assertTrue(
+      $class->is_active()
+    );
+
+    /**
+     * Run
+     * - mock args
+     * - run callback function
+     * - check that the return value is correct
+     * - increase user capabilities
+     * - run callback function
+     * - check that the return value is correct
+     */
+
+    $user = $this->factory->user->create(array('role' => 'subscriber', 'user_email' => 'user@user.user'));
+    $post = $this->factory->post->create(array('post_author' => $user));
+    $comment = $this->factory->comment->create(array('comment_post_ID' => $post));
+    $emails = array('admin@admin.admin');
+
+    $this->assertSame(
+      array('admin@admin.admin'), $class->aucor_core_comment_moderation_post_author_only($emails, $comment)
+    );
+
+    get_userdata($user)->set_role('editor');
+
+    $this->assertSame(
+      array('user@user.user'), $class->aucor_core_comment_moderation_post_author_only($emails, $comment)
+    );
+  }
+
+  public function test_security_remove_commenting() {
+    $class = $this->security->get_sub_features()['aucor_core_security_remove_commenting'];
+    // key
+    $this->assertNotEmpty(
+       $class->get_key()
+    );
+    // name
+    $this->assertNotEmpty(
+      $class->get_name()
+    );
+    // status
+    $this->assertTrue(
+      $class->is_active()
+    );
+
+    /**
+     * Run
+     * -- first part:
+     * - run callback function
+     * - check that support has been removed from post types
+     * -- second part:
+     * - mock args
+     * - run callback function
+     * - check that the menu item has been removed
+     * -- third part:
+     * - TODO
+     * -- fourth part:
+     * - mock args
+     * - run callback function
+     * - check that the correct item has been removed
+     * -- fifth part:
+     * - mock args
+     * - run callback function
+     * - check that the return value is correct
+     */
+    $class->aucor_core_disable_comments_post_types_support();
+
+    $post_types = get_post_types();
+
+    foreach ($post_types as $post_type) {
+      $this->assertFalse(
+        post_type_supports($post_type, 'comments'), $post_type . ' supports comments'
+      );
+      $this->assertFalse(
+        post_type_supports($post_type, 'trackbacks'), $post_type . ' supports trackbacks'
+      );
+    }
+
+    global $menu;
+
+    add_menu_page('Comments', 'Comments', 'edit_posts', 'edit-comments.php');
+
+    $class->aucor_core_disable_comments_admin_menu();
+
+    foreach ($menu as $item) {
+      $this->assertNotEquals(
+        'edit-comments.php', $item[2], $item[0] . ' contains edit-comments.php'
+      );
+    }
+
+    // TODO, figure out what to do with the exit
+    // global $pagenow;
+    // $pagenow = 'edit-comments.php';
+    // $class->aucor_core_disable_comments_admin_menu_redirect();
+
+    global $wp_admin_bar;
+
+    $wp_admin_bar->add_node(array(
+        'id'    => 'comments',
+      )
+    );
+
+    $class->aucor_core_admin_bar_render();
+
+    $this->assertArrayNotHasKey(
+      'comments', $wp_admin_bar->get_nodes()
+    );
+
+    $comment1 = $this->factory->comment->create();
+    $comment2 = $this->factory->comment->create();
+    $comments =  array($comment1, $comment2);
+
+    $this->assertSame(
+      array(), $class->aucor_core_disable_comments_hide_existing_comments($comments)
+    );
+  }
+
 }
