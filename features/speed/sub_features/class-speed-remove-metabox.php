@@ -28,7 +28,9 @@ class Aucor_Core_Speed_Remove_Metabox extends Aucor_Core_Sub_Feature {
    * Remove slow performing post_meta metabox
    */
   public static function aucor_core_remove_post_meta_metabox() {
-    remove_meta_box('postcustom', null, 'normal');
+    foreach (get_post_types() as $type) {
+      remove_meta_box('postcustom', $type, 'normal');
+    }
   }
 
 }
