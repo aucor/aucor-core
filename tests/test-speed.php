@@ -96,23 +96,24 @@ class SpeedTest extends WP_UnitTestCase {
      */
     $scripts = new WP_Scripts();
     $scripts->add('jquery', false, array('jquery-core', 'jquery-migrate'));
-    $scripts->add('jquery-core', '/jquery.js');
-    $scripts->add('jquery-migrate', '/jquery-migrate.js');
+    $scripts->add('jquery-core', '/jquery.js', array());
+    $scripts->add('jquery-migrate', '/jquery-migrate.js', array());
+
+    $this->go_to('/'); // get out of is_admin()
 
     $class->aucor_core_move_jquery_into_footer($scripts);
 
-    // $this->expectOutputString('foo');
-    // print_r(is_admin());
+    $this->expectOutputRegex('/^(?:<script[^>]+><\\/script>\\n){2}$/');
 
-    // $this->expectOutputRegex('/^(?:<script[^>]+><\\/script>\\n){2}$/');
-    // $scripts->do_items(false, 0);
-    // $this->assertNotContains('jquery', $scripts->done);
-    // $this->assertNotContains('jquery-core', $scripts->done, 'jquery-core should be in footer but is in head');
-    // $this->assertNotContains('jquery-migrate', $scripts->done, 'jquery-migrate should be in footer but is in head');
-    // $scripts->do_items(false, 1);
-    // $this->assertContains('jquery', $scripts->done);
-    // $this->assertContains('jquery-core', $scripts->done, 'jquery-core in footer');
-    // $this->assertContains('jquery-migrate', $scripts->done, 'jquery-migrate in footer');
+    $scripts->do_items('jquery', 0);
+    $this->assertNotContains('jquery', $scripts->done);
+    $this->assertNotContains('jquery-core', $scripts->done);
+    $this->assertNotContains('jquery-migrate', $scripts->done);
+
+    $scripts->do_items('jquery', 1);
+    $this->assertContains('jquery', $scripts->done);
+    $this->assertContains('jquery-core', $scripts->done);
+    $this->assertContains('jquery-migrate', $scripts->done);
   }
 
   public function test_speed_remove_emojis() {
