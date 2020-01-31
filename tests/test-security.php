@@ -368,6 +368,26 @@ class SecurityTest extends WP_UnitTestCase {
     // $pagenow = 'edit-comments.php';
     // $class->aucor_core_disable_comments_admin_menu_redirect();
 
+    global $wp_meta_boxes;
+
+    add_meta_box(
+      'dashboard_recent_comments',
+      'Test',
+      'test_callback',
+      'dashboard',
+      'normal'
+    );
+
+    $this->assertNotEmpty(
+      $wp_meta_boxes['dashboard']['normal']['default']['dashboard_recent_comments']
+    );
+
+    $class->aucor_core_disable_comments_dashboard();
+
+    $this->assertEmpty(
+      $wp_meta_boxes['dashboard']['normal']['default']['dashboard_recent_comments']
+    );
+
     global $wp_admin_bar;
 
     $wp_admin_bar->add_node(array(

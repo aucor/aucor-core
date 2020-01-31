@@ -226,9 +226,9 @@ class LocalizationTest extends WP_UnitTestCase {
      * - run callback function
      * - check that the mock function contains the filtered values
      * -- second part:
-     * - mock args
      * - check that functions exist and that return correct value
-     * - for the functions with the aucor_core_debug_msg, buffer and check output
+     * - the ask__ and asv__ functions will throw an E_USER_WARNING on invalid inputs, so
+     * place them last and before running them, expect the warnings
      */
     add_filter('aucor_core_pll_register_strings', function($string_arr){
       $string_arr = array(
@@ -268,13 +268,6 @@ class LocalizationTest extends WP_UnitTestCase {
       'value 2', ask__('key 2', 'fi')
     );
 
-    error_reporting(E_ALL & ~E_USER_WARNING);
-
-    // $this->expectException(ExpectedException::class);
-    $this->assertSame(
-      'key 3', ask__('key 3')
-    );
-
     $this->assertTrue(
       function_exists('ask_e')
     );
@@ -295,9 +288,6 @@ class LocalizationTest extends WP_UnitTestCase {
     $this->assertSame(
       'value 2', asv__('value 2', 'fi')
     );
-    $this->assertSame(
-      'value 3', asv__('value 3')
-    );
 
     $this->assertTrue(
       function_exists('asv_e')
@@ -306,6 +296,17 @@ class LocalizationTest extends WP_UnitTestCase {
     $output = ob_get_clean();
     $this->assertSame(
       'value 2', $output
+    );
+
+    // testing the invalid inputs that throw a warning
+    $this->expectException(\PHPUnit\Framework\Error\Warning::class);
+
+    $this->assertSame(
+      'key 3', ask__('key 3')
+    );
+
+    $this->assertSame(
+      'value 3', asv__('value 3')
     );
   }
 
