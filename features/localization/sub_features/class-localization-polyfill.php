@@ -27,6 +27,13 @@ class Aucor_Core_Localization_Polyfill extends Aucor_Core_Sub_Feature {
 }
 
 /**
+ * This structure of not having the polyfills in the class is so that the functions
+ * might be used outside the class (i.e. the theme) without having to declare an instance
+ * of the class first. The instance created below is to still maintain the option of diabling
+ * the polyfills, if that need ever rises for some reason.
+ */
+
+/**
  * Get site locale
  *
  * @return string locale 2 character language code
@@ -58,24 +65,24 @@ if ($instance->is_active()) :
       echo $s;
     }
   }
-  if (!function_exists('pll_esc_html_e')) {
-    function pll_esc_html_e($s) {
-      echo esc_html($s);
-    }
-  }
   if (!function_exists('pll_esc_html__')) {
     function pll_esc_html__($s) {
       return esc_html($s);
     }
   }
-  if (!function_exists('pll_esc_attr_e')) {
-    function pll_esc_attr_e($s) {
-      echo esc_attr($s);
+  if (!function_exists('pll_esc_html_e')) {
+    function pll_esc_html_e($s) {
+      echo esc_html($s);
     }
   }
   if (!function_exists('pll_esc_attr__')) {
     function pll_esc_attr__($s) {
       return esc_attr($s);
+    }
+  }
+  if (!function_exists('pll_esc_attr_e')) {
+    function pll_esc_attr_e($s) {
+      echo esc_attr($s);
     }
   }
   if (!function_exists('pll_current_language')) {
