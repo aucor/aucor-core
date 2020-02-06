@@ -15,6 +15,7 @@
   <filter>
     <whitelist>
       <directory suffix=".php">./features/</directory>
+       <file>helpers.php</file>
     </whitelist>
   </filter>
 </phpunit>

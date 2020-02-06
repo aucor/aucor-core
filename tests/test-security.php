@@ -337,6 +337,10 @@ class SecurityTest extends WP_UnitTestCase {
      * - mock args
      * - run callback function
      * - check that the return value is correct
+     * -- sixth part:
+     * - check filter hooks
+     * -- seventh part:
+     * - check filter hooks
      */
     $class->aucor_core_disable_comments_post_types_support();
 
@@ -363,7 +367,6 @@ class SecurityTest extends WP_UnitTestCase {
       );
     }
 
-    // TODO, figure out what to do with the exit
     // global $pagenow;
     // $pagenow = 'edit-comments.php';
     // $class->aucor_core_disable_comments_admin_menu_redirect();
@@ -407,6 +410,14 @@ class SecurityTest extends WP_UnitTestCase {
 
     $this->assertSame(
       array(), $class->aucor_core_disable_comments_hide_existing_comments($comments)
+    );
+
+    $this->assertSame(
+      20, has_filter('comments_open', '__return_false')
+    );
+
+    $this->assertSame(
+      20, has_filter('pings_open', '__return_false')
     );
   }
 

@@ -228,7 +228,7 @@ class LocalizationTest extends WP_UnitTestCase {
      * -- second part:
      * - check that functions exist and that return correct value
      * - the ask__ and asv__ functions will throw an E_USER_WARNING on invalid inputs, so
-     * place them last and before running them, expect the warnings
+     * place them last and before running them, handle warning with custom function
      */
     add_filter('aucor_core_pll_register_strings', function($string_arr){
       $string_arr = array(
@@ -299,7 +299,7 @@ class LocalizationTest extends WP_UnitTestCase {
     );
 
     // testing the invalid inputs that throw a warning
-    $this->expectException(\PHPUnit\Framework\Error\Warning::class);
+    set_error_handler('handle_debug_msg_user_warning', E_USER_WARNING);
 
     $this->assertSame(
       'key 3', ask__('key 3')
@@ -308,8 +308,21 @@ class LocalizationTest extends WP_UnitTestCase {
     $this->assertSame(
       'value 3', asv__('value 3')
     );
+
+    restore_error_handler();
   }
 
+}
+
+function handle_debug_msg_user_warning($errno, $errstr) {
+  $test = new WP_UnitTestCase;
+  $test->assertSame(
+    E_USER_WARNING, $errno
+  );
+
+  $test->assertStringContainsString(
+    'Localization error - Missing string by', $errstr
+  );
 }
 
 global $pll_strings;

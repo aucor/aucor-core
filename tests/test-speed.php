@@ -92,12 +92,27 @@ class SpeedTest extends WP_UnitTestCase {
      * Run
      * - mock args
      * - run callback function
+     * - check that data has not been added to the dependencies
+     * - move out of admin view
+     * - run callback function
      * - check that scripts have been moved
      */
     $scripts = new WP_Scripts();
     $scripts->add('jquery', false, array('jquery-core', 'jquery-migrate'));
     $scripts->add('jquery-core', '/jquery.js', array());
     $scripts->add('jquery-migrate', '/jquery-migrate.js', array());
+
+    $class->aucor_core_move_jquery_into_footer($scripts);
+
+    $this->assertFalse(
+      $scripts->get_data('jquery', 'group')
+    );
+    $this->assertFalse(
+      $scripts->get_data('jquery-core', 'group')
+    );
+    $this->assertFalse(
+      $scripts->get_data('jquery-migrate', 'group')
+    );
 
     $this->go_to('/'); // get out of is_admin()
 
