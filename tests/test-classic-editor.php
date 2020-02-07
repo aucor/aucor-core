@@ -63,6 +63,13 @@ class ClassicEditorTest extends WP_UnitTestCase {
      * Run
      */
 
+    // check filter hook
+    $this->assertSame(
+      10, has_filter('tiny_mce_before_init', array($class, 'aucor_core_show_second_editor_row'))
+    );
+
+    // AUCOR_CORE_SHOW_SECOND_EDITOR_ROW()
+
     // mock args
     $args = array('wordpress_adv_hidden' => true);
 

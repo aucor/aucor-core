@@ -63,6 +63,13 @@ class PluginsTest extends WP_UnitTestCase {
      * Run
      */
 
+    // check filter hook
+    $this->assertSame(
+      10, has_filter('acf/settings/show_admin', array($class, 'aucor_core_hide_acf_from_nonadmins'))
+    );
+
+    // AUCOR_CORE_HIDE_ACF_FROM_NONADMINS()
+
     // create an admin user and set it as the current user
     $user_admin = $this->factory->user->create(array('role' => 'administrator'));
     wp_set_current_user($user_admin);
@@ -101,7 +108,7 @@ class PluginsTest extends WP_UnitTestCase {
      * Run
      */
 
-    // check that the filters have the __return function hooked to them
+    // check filter hooks
     $this->assertSame(
       10, has_filter('gform_tabindex', '__return_false')
     );
@@ -128,6 +135,13 @@ class PluginsTest extends WP_UnitTestCase {
     /**
      * Run
      */
+
+    // check filter hook
+    $this->assertSame(
+      10, has_filter('redirection_role', array($class, 'aucor_core_redirection_role'))
+    );
+
+    // AUCOR_CORE_REDIRECTION_ROLE()
 
     // mock args
     $args = 'publish_pages';
@@ -156,6 +170,13 @@ class PluginsTest extends WP_UnitTestCase {
     /**
      * Run
      */
+
+    // check action hook
+    $this->assertSame(
+      10, has_action('wp_before_admin_bar_render', array($class, 'aucor_core_yoast_admin_bar_render'))
+    );
+
+    // AUCOR_CORE_YOAST_ADMIN_BAR_RENDER()
 
     global $wp_admin_bar;
 
@@ -199,6 +220,23 @@ class PluginsTest extends WP_UnitTestCase {
     /**
      * Run
      */
+
+    // check action and filter hooks
+    $this->assertSame(
+      10, has_action('admin_init', array($class, 'aucor_core_remove_wpseo_notifications'))
+    );
+    $this->assertSame(
+      10, has_filter('wpseo_metabox_prio', array($class, 'aucor_core_seo_metabox_prio'))
+    );
+    $this->assertSame(
+      10, has_filter('the_seo_framework_metabox_priority', array($class, 'aucor_core_seo_metabox_prio'))
+    );
+    $this->assertSame(
+      5, has_filter('wpseo_opengraph_image_size', array($class, 'aucor_core_filter_wpseo_opengraph_image_size'))
+    );
+    $this->assertSame(
+      5, has_filter('wpseo_twitter_image_size', array($class, 'aucor_core_filter_wpseo_opengraph_image_size'))
+    );
 
     // AUCOR_CORE_REMOVE_WPSEO_NOTIFICATIONS()
 

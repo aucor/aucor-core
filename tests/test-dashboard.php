@@ -63,6 +63,13 @@ class DashboardTest extends WP_UnitTestCase {
      * Run
      */
 
+    // check action hook
+    $this->assertSame(
+      99, has_action('wp_dashboard_setup', array($class, 'aucor_core_admin_dashboard'))
+    );
+
+    // AUCOR_CORE_ADMIN_DASHBOARD()
+
     global $wp_meta_boxes;
 
     // mock metaboxes
@@ -137,9 +144,18 @@ class DashboardTest extends WP_UnitTestCase {
     /**
      * Run
      */
-    global $wp_meta_boxes;
 
-    // REGISTER_AUCOR_RECENT_WIDGET()
+    // check action hooks
+    $this->assertSame(
+      10, has_action('wp_dashboard_setup', array($class, 'register_aucor_recent_dashboard_widget'))
+    );
+    $this->assertSame(
+      10, has_action('admin_enqueue_scripts', array($class, 'aucor_recent_dashboard_widget_styles'))
+    );
+
+    // REGISTER_AUCOR_RECENT_DASHBOARD_WIDGET()
+
+    global $wp_meta_boxes;
 
     // run callback function
     $class->register_aucor_recent_dashboard_widget();
@@ -300,7 +316,7 @@ class DashboardTest extends WP_UnitTestCase {
      * Run
      */
 
-    // check that the actions don't have the hooks
+    // check that the hooks have been removed
     $this->assertFalse(
       has_action('try_gutenberg_panel', 'wp_try_gutenberg_panel')
     );

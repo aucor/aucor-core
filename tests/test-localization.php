@@ -230,6 +230,11 @@ class LocalizationTest extends WP_UnitTestCase {
      * Run
      */
 
+    // check action hook
+    $this->assertSame(
+      10, has_action('init', array($class, 'aucor_core_string_registration'))
+    );
+
     // AUCOR_CORE_STRING_REGISTRATION()
 
     // register "translations" with filter for the string translation functions to use

@@ -63,6 +63,13 @@ class SpeedTest extends WP_UnitTestCase {
      * Run
      */
 
+    // check filter hook
+    $this->assertSame(
+      10, has_filter('wp_revisions_to_keep', array($class, 'aucor_core_limit_revision_number'))
+    );
+
+    // AUCOR_CORE_LIMIT_REVISION_NUMBER()
+
     // mock args
     $number = 10;
     $post_id = 1;
@@ -91,6 +98,13 @@ class SpeedTest extends WP_UnitTestCase {
     /**
      * Run
      */
+
+    // check action hook
+    $this->assertSame(
+      10, has_action('wp_default_scripts', array($class, 'aucor_core_move_jquery_into_footer'))
+    );
+
+    // AUCOR_CORE_MOVE_JQUERY_INTO_FOOTER()
 
     // mock args
     $scripts = new WP_Scripts();
@@ -153,10 +167,17 @@ class SpeedTest extends WP_UnitTestCase {
      * Run
      */
 
+    // check action hook
+    $this->assertSame(
+      10, has_action('init', array($class, 'aucor_core_disable_emojis'))
+    );
+
+    // AUCOR_CORE_DISABLE_EMOJIS()
+
     // run callback function
     $class->aucor_core_disable_emojis();
 
-    // check that filters and actions have been removed
+    // check that the filter and action hooks have been removed
     $this->assertFalse(
       has_action('wp_head', 'print_emoji_detection_script', 7)
     );
@@ -198,6 +219,13 @@ class SpeedTest extends WP_UnitTestCase {
     /**
      * Run
      */
+
+    // check action hook
+    $this->assertSame(
+      10, has_action('add_meta_boxes', array($class, 'aucor_core_remove_post_meta_metabox'))
+    );
+
+    // AUCOR_CORE_REMOVE_POST_META_METABOX()
 
     global $wp_meta_boxes;
 

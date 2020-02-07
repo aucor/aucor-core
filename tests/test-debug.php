@@ -63,6 +63,13 @@ class DebugTest extends WP_UnitTestCase {
      * Run
      */
 
+    // check filter hook
+    $this->assertSame(
+      10, has_filter('the_content', array($class, 'aucor_core_style_guide_markup'))
+    );
+
+    // AUCOR_CORE_STYLE_GUIDE_MARKUP()
+
     // run callback function
     $content = $class->aucor_core_style_guide_markup('');
 
@@ -115,6 +122,13 @@ class DebugTest extends WP_UnitTestCase {
     /**
      * Run
      */
+
+    // check action hook
+    $this->assertSame(
+      10, has_action('wp_head', array($class, 'aucor_core_wireframe'))
+    );
+
+    // AUCOR_CORE_WIREFRAME()
 
     // buffer output
     ob_start();

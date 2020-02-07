@@ -63,7 +63,7 @@ class SecurityTest extends WP_UnitTestCase {
      * Run
      */
 
-    // check that the filter has the __return function hooked to it
+    // check filter hook
     $this->assertSame(
       10, has_filter('admin_email_check_interval', '__return_false')
     );
@@ -138,12 +138,21 @@ class SecurityTest extends WP_UnitTestCase {
      * Run
      */
 
-    // check that the filters have the __return function hooked to them
+    // check filter hooks
     $this->assertSame(
       10, has_filter('the_generator', '__return_empty_string')
     );
     $this->assertSame(
       10, has_filter('xmlrpc_enabled', '__return_false')
+    );
+    $this->assertSame(
+      10, has_filter('xmlrpc_enabled', '__return_false')
+    );
+    $this->assertSame(
+      10, has_filter('wp_headers', array($class, 'aucor_core_remove_pingback_header'))
+    );
+    $this->assertSame(
+      10, has_filter('xmlrpc_methods', array($class, 'aucor_core_remove_pingback_functionality'))
     );
 
     // AUCOR_CORE_REMOVE_PINGBACK_HEADER()
@@ -168,7 +177,7 @@ class SecurityTest extends WP_UnitTestCase {
       'pingback.ping', $class->aucor_core_remove_pingback_functionality($methods)
     );
 
-    // check taht the actions have been removed
+    // check that the hooks have been removed
     $this->assertFalse(
       has_action('wp_head', 'rsd_link')
     );
@@ -219,6 +228,20 @@ class SecurityTest extends WP_UnitTestCase {
     /**
      * Run
      */
+
+    // check filter hooks
+    $this->assertSame(
+      100, has_filter('the_author', array($class, 'aucor_core_rename_authors'))
+    );
+    $this->assertSame(
+      100, has_filter('the_modified_author', array($class, 'aucor_core_rename_authors'))
+    );
+    $this->assertSame(
+      100, has_filter('get_the_author_link', array($class, 'aucor_core_author_link_to_front_page'))
+    );
+    $this->assertSame(
+      1000, has_filter('rest_endpoints', array($class,'aucor_core_disable_user_endpoints'))
+    );
 
     // AUCOR_CORE_RENAME_AUTHORS()
 
@@ -287,6 +310,13 @@ class SecurityTest extends WP_UnitTestCase {
      * Run
      */
 
+    // check filter hook
+    $this->assertSame(
+      11, has_filter('comment_moderation_recipients', array($class, 'aucor_core_comment_moderation_post_author_only'))
+    );
+
+    // AUCOR_CORE_COMMENT_MODERATION_POST_AUTHOR_ONLY()
+
     // mock user, post, comments, args
     $user = $this->factory->user->create(array('role' => 'subscriber', 'user_email' => 'user@user.user'));
     $post = $this->factory->post->create(array('post_author' => $user));
@@ -325,6 +355,32 @@ class SecurityTest extends WP_UnitTestCase {
     /**
      * Run
      */
+
+    // check action and filter hooks
+    $this->assertSame(
+      10, has_action('admin_init', array($class, 'aucor_core_disable_comments_post_types_support'))
+    );
+    $this->assertSame(
+      10, has_action('admin_menu', array($class, 'aucor_core_disable_comments_admin_menu'))
+    );
+    $this->assertSame(
+      10, has_action('admin_init', array($class, 'aucor_core_disable_comments_admin_menu_redirect'))
+    );
+    $this->assertSame(
+      10, has_action('admin_init', array($class, 'aucor_core_disable_comments_dashboard'))
+    );
+    $this->assertSame(
+      10, has_action('wp_before_admin_bar_render', array($class, 'aucor_core_admin_bar_render'))
+    );
+    $this->assertSame(
+      10, has_filter('comments_array', array($class, 'aucor_core_disable_comments_hide_existing_comments'))
+    );
+    $this->assertSame(
+      20, has_filter('comments_open', '__return_false')
+    );
+    $this->assertSame(
+      20, has_filter('pings_open', '__return_false')
+    );
 
     // AUCOR_CORE_DISABLE_COMMENTS_POST_TYPES_SUPPORT()
 
@@ -436,15 +492,6 @@ class SecurityTest extends WP_UnitTestCase {
     // check that the callback function returns correct values
     $this->assertSame(
       array(), $class->aucor_core_disable_comments_hide_existing_comments($comments)
-    );
-
-    // check that hooks have been added to the filters
-    $this->assertSame(
-      20, has_filter('comments_open', '__return_false')
-    );
-
-    $this->assertSame(
-      20, has_filter('pings_open', '__return_false')
     );
   }
 

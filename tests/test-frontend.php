@@ -63,6 +63,14 @@ class FrontEndTest extends WP_UnitTestCase {
      * Run
      */
 
+    // check filter hooks
+    $this->assertSame(
+      10, has_filter('excerpt_more', array($class, 'aucor_core_excerpt_more'))
+    );
+    $this->assertSame(
+      10, has_filter('excerpt_length', array($class, 'aucor_core_excerpt_length'))
+    );
+
     // AUCOR_CORE_EXCERPT_MORE()
 
      // mock args
@@ -102,6 +110,14 @@ class FrontEndTest extends WP_UnitTestCase {
     /**
      * Run
      */
+
+    // check filter hooks
+    $this->assertSame(
+      10, has_filter('next_posts_link_attributes', array($class, 'aucor_core_next_posts_attributes'))
+    );
+    $this->assertSame(
+      10, has_filter('script_loader_tag', array($class, 'aucor_core_cleanup_script_tags'))
+    );
 
     // AUCOR_CORE_NEXT_POSTS_ATTRIBUTES()
 

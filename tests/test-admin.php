@@ -63,6 +63,13 @@ class AdminTest extends WP_UnitTestCase {
      * Run
      */
 
+    // check filter hook
+    $this->assertSame(
+      10, has_filter('media_view_settings', array($class, 'aucor_core_gallery_defaults'))
+    );
+
+    // AUCOR_CORE_GALLERY_DEFAULTS()
+
     // mock correct args
     $args = array(
       'galleryDefaults' => array(
@@ -95,6 +102,12 @@ class AdminTest extends WP_UnitTestCase {
     /**
      * Run
      */
+    // check action hook
+    $this->assertSame(
+      10, has_action('admin_init', array($class, 'aucor_core_default_image_link_to_none'))
+    );
+
+    // AUCOR_CORE_DEFAULT_IMAGE_LINK_TO_NONE()
 
     // inject a wrong value to options
     update_option('image_default_link_type', 'file');
@@ -127,10 +140,24 @@ class AdminTest extends WP_UnitTestCase {
      * Run
      */
 
-    // check that the callback functions return correct values
+    // check filter hooks
+    $this->assertSame(
+      10, has_filter('login_headertext', array($class, 'aucor_core_login_logo_url_title'))
+    );
+    $this->assertSame(
+      10, has_filter('login_headerurl', array($class, 'aucor_core_login_logo_url'))
+    );
+
+    // AUCOR_CORE_LOGIN_LOGO_URL_TITLE()
+
+    // check that the callback function returns correct value
     $this->assertEquals(
       get_bloginfo('name'), $class->aucor_core_login_logo_url_title('Test')
     );
+
+    // AUCOR_CORE_LOGIN_LOGO_URL()
+
+    // check that the callback function returns correct value
     $this->assertEquals(
       get_site_url(), $class->aucor_core_login_logo_url('https://test.test')
     );
@@ -154,6 +181,13 @@ class AdminTest extends WP_UnitTestCase {
     /**
      * Run
      */
+
+    // check action hook
+    $this->assertSame(
+      9999, has_action('admin_menu', array($class, 'aucor_core_cleanup_admin_menu'))
+    );
+
+    // AUCOR_CORE_CLEANUP_ADMIN_MENU()
 
     global $menu, $submenu;
 
@@ -210,6 +244,13 @@ class AdminTest extends WP_UnitTestCase {
      * Run
      */
 
+    // check action hook
+    $this->assertSame(
+      1, has_action('admin_head', array($class, 'aucor_core_remove_update_nags_for_non_admins'))
+    );
+
+    // AUCOR_CORE_REMOVE_UPDATE_NAGS_FOR_NON_ADMINS()
+
      // create an admin user and set it as the current user
     $user_admin = $this->factory->user->create(array('role' => 'administrator'));
     wp_set_current_user($user_admin);
@@ -261,6 +302,11 @@ class AdminTest extends WP_UnitTestCase {
       'admin_color_scheme_picker', $wp_filter
     );
 
+    // check filter hook
+    $this->assertSame(
+      10, has_filter( 'user_contactmethods', array($class, 'aucor_core_remove_contact_methods'))
+    );
+
     // AUCOR_CORE_REMOVE_CONTACT_METHODS()
 
     // mock args
@@ -301,6 +347,13 @@ class AdminTest extends WP_UnitTestCase {
     /**
      * Run
      */
+
+    // check action hook
+    $this->assertSame(
+      999, has_action('admin_bar_menu', array($class, 'aucor_core_remove_customizer_admin_bar'))
+    );
+
+    // AUCOR_CORE_REMOVE_CUSTOMIZER_ADMIN_BAR()
 
     // mock admin bar
     $args = new WP_Admin_Bar;
