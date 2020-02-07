@@ -101,30 +101,22 @@ class DashboardTest extends WP_UnitTestCase {
     // nested for loops are not ideal, but with such a limited amount of inputs it's still manageable
 
     // main context
-    $normal_empty = true;
     foreach ($wp_meta_boxes['dashboard']['normal'] as $priority => $list) {
       foreach ($list as $key => $value) {
-        if (!empty($value)) {
-          $normal_empty = false;
-        }
+        $this->assertEmpty(
+          $value
+        );
       }
     }
-    $this->assertTrue(
-      $normal_empty, 'Normal context not empty'
-    );
 
     // side context
-    $side_empty = true;
     foreach ($wp_meta_boxes['dashboard']['side'] as $priority => $list) {
       foreach ($list as $key => $value) {
-        if (!empty($value)) {
-          $side_empty = false;
-        }
+        $this->assertEmpty(
+          $value
+        );
       }
     }
-    $this->assertTrue(
-      $side_empty, 'Side context not empty'
-    );
   }
 
   public function test_dashboard_recent_widget() {
