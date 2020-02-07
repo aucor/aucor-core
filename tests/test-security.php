@@ -367,7 +367,15 @@ class SecurityTest extends WP_UnitTestCase {
       );
     }
 
-    // global $pagenow;
+    global $pagenow;
+    $pagenow = 'index.php';
+
+    $class->aucor_core_disable_comments_admin_menu_redirect();
+
+    $this->assertSame(
+      'index.php', $pagenow
+    );
+
     // $pagenow = 'edit-comments.php';
     // $class->aucor_core_disable_comments_admin_menu_redirect();
 
