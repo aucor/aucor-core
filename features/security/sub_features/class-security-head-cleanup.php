@@ -29,10 +29,10 @@ class Aucor_Core_Security_Head_Cleanup extends Aucor_Core_Sub_Feature {
     add_filter('xmlrpc_enabled', '__return_false');
 
     // Remove X-Pingback header
-    add_filter('wp_headers', array('Aucor_Core_Security_Head_Cleanup', 'aucor_core_remove_pingback_header'));
+    add_filter('wp_headers', array($this, 'aucor_core_remove_pingback_header'));
 
     // Remove Pingback functionality
-    add_filter('xmlrpc_methods', array('Aucor_Core_Security_Head_Cleanup', 'aucor_core_remove_pingback_functionality'));
+    add_filter('xmlrpc_methods', array($this, 'aucor_core_remove_pingback_functionality'));
 
     // Remove junk from head
     remove_action('wp_head', 'rsd_link');

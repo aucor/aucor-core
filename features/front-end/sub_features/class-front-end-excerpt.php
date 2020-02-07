@@ -21,8 +21,8 @@ class Aucor_Core_Front_End_Excerpt extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_filter('excerpt_more', array('Aucor_Core_Front_End_Excerpt', 'aucor_core_excerpt_more'));
-    add_filter('excerpt_length', array('Aucor_Core_Front_End_Excerpt', 'aucor_core_excerpt_length'));
+    add_filter('excerpt_more', array($this, 'aucor_core_excerpt_more'));
+    add_filter('excerpt_length', array($this, 'aucor_core_excerpt_length'));
 
   }
 

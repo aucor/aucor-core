@@ -21,8 +21,8 @@ class Aucor_Core_Dashboard_Recent_Widget extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_action('wp_dashboard_setup', array('Aucor_Core_Dashboard_Recent_Widget', 'register_aucor_recent_dashboard_widget'));
-    add_action('admin_enqueue_scripts', array('Aucor_Core_Dashboard_Recent_Widget', 'aucor_recent_dashboard_widget_styles'));
+    add_action('wp_dashboard_setup', array($this, 'register_aucor_recent_dashboard_widget'));
+    add_action('admin_enqueue_scripts', array($this, 'aucor_recent_dashboard_widget_styles'));
   }
 
   /**

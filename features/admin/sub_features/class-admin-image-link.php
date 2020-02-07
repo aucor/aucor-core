@@ -21,7 +21,7 @@ class Aucor_Core_Admin_Image_Link extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_action('admin_init', array('Aucor_Core_Admin_Image_Link', 'aucor_core_default_image_link_to_none'), 10);
+    add_action('admin_init', array($this, 'aucor_core_default_image_link_to_none'), 10);
   }
 
   /**

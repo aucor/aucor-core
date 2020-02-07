@@ -21,7 +21,7 @@ class Aucor_Core_Admin_Notifications extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_action('admin_head', array('Aucor_Core_Admin_Notifications', 'aucor_core_remove_update_nags_for_non_admins'), 1);
+    add_action('admin_head', array($this, 'aucor_core_remove_update_nags_for_non_admins'), 1);
   }
 
   /**

@@ -21,8 +21,8 @@ class Aucor_Core_Front_End_Html_Fixes extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_filter('next_posts_link_attributes', array('Aucor_Core_Front_End_Html_Fixes', 'aucor_core_next_posts_attributes'));
-    add_filter('script_loader_tag', array('Aucor_Core_Front_End_Html_Fixes', 'aucor_core_cleanup_script_tags'));
+    add_filter('next_posts_link_attributes', array($this, 'aucor_core_next_posts_attributes'));
+    add_filter('script_loader_tag', array($this, 'aucor_core_cleanup_script_tags'));
   }
 
   /**

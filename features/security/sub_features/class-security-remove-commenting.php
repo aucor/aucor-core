@@ -21,13 +21,13 @@ class Aucor_Core_Security_Remove_Commenting extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_action('admin_init', array('Aucor_Core_Security_Remove_Commenting', 'aucor_core_disable_comments_post_types_support'));
-    add_action('admin_menu', array('Aucor_Core_Security_Remove_Commenting', 'aucor_core_disable_comments_admin_menu'));
-    add_action('admin_init', array('Aucor_Core_Security_Remove_Commenting', 'aucor_core_disable_comments_admin_menu_redirect'));
-    add_action('admin_init', array('Aucor_Core_Security_Remove_Commenting', 'aucor_core_disable_comments_dashboard'));
-    add_action('wp_before_admin_bar_render', array('Aucor_Core_Security_Remove_Commenting', 'aucor_core_admin_bar_render'));
+    add_action('admin_init', array($this, 'aucor_core_disable_comments_post_types_support'));
+    add_action('admin_menu', array($this, 'aucor_core_disable_comments_admin_menu'));
+    add_action('admin_init', array($this, 'aucor_core_disable_comments_admin_menu_redirect'));
+    add_action('admin_init', array($this, 'aucor_core_disable_comments_dashboard'));
+    add_action('wp_before_admin_bar_render', array($this, 'aucor_core_admin_bar_render'));
 
-    add_filter('comments_array', array('Aucor_Core_Security_Remove_Commenting', 'aucor_core_disable_comments_hide_existing_comments', 10, 2));
+    add_filter('comments_array', array($this, 'aucor_core_disable_comments_hide_existing_comments', 10, 2));
     // close comments on the front-end
     add_filter('comments_open', '__return_false', 20);
     add_filter('pings_open',    '__return_false', 20);

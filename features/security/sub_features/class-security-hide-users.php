@@ -21,10 +21,10 @@ class Aucor_Core_Security_Hide_Users extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-      add_filter('the_author', array('Aucor_Core_Security_Hide_Users', 'aucor_core_rename_authors'), 100);
-      add_filter('the_modified_author', array('Aucor_Core_Security_Hide_Users', 'aucor_core_rename_authors'), 100);
-      add_filter('get_the_author_link', array('Aucor_Core_Security_Hide_Users', 'aucor_core_author_link_to_front_page'), 100);
-      add_filter('rest_endpoints', array('Aucor_Core_Security_Hide_Users','aucor_core_disable_user_endpoints'), 1000);
+      add_filter('the_author', array($this, 'aucor_core_rename_authors'), 100);
+      add_filter('the_modified_author', array($this, 'aucor_core_rename_authors'), 100);
+      add_filter('get_the_author_link', array($this, 'aucor_core_author_link_to_front_page'), 100);
+      add_filter('rest_endpoints', array($this,'aucor_core_disable_user_endpoints'), 1000);
   }
 
   /**

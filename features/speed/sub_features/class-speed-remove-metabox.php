@@ -21,7 +21,7 @@ class Aucor_Core_Speed_Remove_Metabox extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_action('add_meta_boxes', array('Aucor_Core_Speed_Remove_Metabox', 'aucor_core_remove_post_meta_metabox'));
+    add_action('add_meta_boxes', array($this, 'aucor_core_remove_post_meta_metabox'));
   }
 
   /**

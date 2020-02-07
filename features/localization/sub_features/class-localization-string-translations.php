@@ -21,7 +21,7 @@ class Aucor_Core_Localization_String_Translations extends Aucor_Core_Sub_Feature
    * Run feature
    */
   public function run() {
-    add_action('init', array('Aucor_Core_Localization_String_Translations', 'aucor_core_string_registration'));
+    add_action('init', array($this, 'aucor_core_string_registration'));
   }
 
   /**

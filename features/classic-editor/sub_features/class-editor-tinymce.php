@@ -21,7 +21,7 @@ class Aucor_Core_Classic_Editor_Tinymce extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_filter('tiny_mce_before_init', array('Aucor_Core_Classic_Editor_Tinymce', 'aucor_core_show_second_editor_row'));
+    add_filter('tiny_mce_before_init', array($this, 'aucor_core_show_second_editor_row'));
   }
 
   /**

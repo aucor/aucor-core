@@ -21,7 +21,7 @@ class Aucor_Core_Admin_Menu_Cleanup extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_action('admin_menu', array('Aucor_Core_Admin_Menu_Cleanup', 'aucor_core_cleanup_admin_menu'), 9999);
+    add_action('admin_menu', array($this, 'aucor_core_cleanup_admin_menu'), 9999);
   }
 
   /**

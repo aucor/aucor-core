@@ -22,7 +22,7 @@ class Aucor_Core_Admin_Profile_Cleanup extends Aucor_Core_Sub_Feature {
    */
   public function run() {
     remove_all_actions('admin_color_scheme_picker');
-    add_filter( 'user_contactmethods', array('Aucor_Core_Admin_Profile_Cleanup', 'aucor_core_remove_contact_methods'), 10, 1 );
+    add_filter( 'user_contactmethods', array($this, 'aucor_core_remove_contact_methods'), 10, 1 );
   }
 
   /**

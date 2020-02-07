@@ -21,7 +21,7 @@ class Aucor_Core_Speed_Remove_Emojis extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_action('init', array('Aucor_Core_Speed_Remove_Emojis', 'aucor_core_disable_emojis'));
+    add_action('init', array($this, 'aucor_core_disable_emojis'));
   }
 
   /**

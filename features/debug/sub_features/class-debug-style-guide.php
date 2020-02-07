@@ -21,7 +21,7 @@ class Aucor_Core_Debug_Style_Guide extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_filter('the_content', array('Aucor_Core_Debug_Style_Guide', 'aucor_core_style_guide_markup'));
+    add_filter('the_content', array($this, 'aucor_core_style_guide_markup'));
   }
 
   /**
