@@ -61,33 +61,40 @@ class LocalizationTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - nothing is actually run in the run function, but the "semi-class" provides polyfill functions for the Polylang plugin
-     * -- first part:
-     * - mock args
-     * - check that function return correct values on valid and invalid locales
-     * -- second part:
-     * - mock args
-     * - check functions existence and that the return value is correct
+     * - nothing is actually run in the run function, but the "semi-class" provides
+     *  polyfill functions for the Polylang plugin
      */
+
+    // AUCOR_CORE_GET_SITE_LOCALE()
+
+    // mock (invalid) args
     add_filter('locale', function($locale) {
       $locale = 'a'; // invalid locale
 
       return $locale;
     });
 
+    // check that function return correct value
     $this->assertSame(
       '', aucor_core_get_site_locale()
     );
 
+    // // mock (valid) args
     add_filter('locale', function($locale) {
       $locale = 'en_US';
 
       return $locale;
     });
 
+    // check that function return correct value
     $this->assertSame(
       'en', aucor_core_get_site_locale()
     );
+
+    // FOR ALL THE POLYFILLS
+
+    // check that the function exists, mock args and check return values
+    // for the _e()-functions buffer the output
 
     $this->assertTrue(
       function_exists('pll__')
@@ -221,15 +228,11 @@ class LocalizationTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * -- first part:
-     * - mock args
-     * - run callback function
-     * - check that the mock function contains the filtered values
-     * -- second part:
-     * - check that functions exist and that return correct value
-     * - the ask__ and asv__ functions will throw an E_USER_WARNING on invalid inputs, so
-     * place them last and before running them, handle warning with custom function
      */
+
+    // AUCOR_CORE_STRING_REGISTRATION()
+
+    // register "translations" with filter for the string translation functions to use
     add_filter('aucor_core_pll_register_strings', function($string_arr){
       $string_arr = array(
         'key 1' => 'value 1',
@@ -238,11 +241,13 @@ class LocalizationTest extends WP_UnitTestCase {
       return $string_arr;
     });
 
+    // run callback function
     $class->aucor_core_string_registration();
 
     global $pll_strings;
     $blog_info = get_bloginfo();
 
+    // mock args
     $args = array(
       'key 1' => array(
         'value'      => 'value 1',
@@ -254,9 +259,16 @@ class LocalizationTest extends WP_UnitTestCase {
       )
     );
 
+    // check that the mock function produces the filtered values in correct format
     $this->assertSame(
       $args, $pll_strings
     );
+
+    // FOR ALL THE STRING TRANSLATION FUNCTIONS
+
+    // check that functions exist and that return correct value
+    // for the _e() functions buffer the output
+    // the ask__ and asv__ functions will throw an E_USER_WARNING on invalid inputs, so place them last and before running them, handle warning with custom function
 
     $this->assertTrue(
       function_exists('ask__')
@@ -299,6 +311,7 @@ class LocalizationTest extends WP_UnitTestCase {
     );
 
     // testing the invalid inputs that throw a warning
+
     set_error_handler('handle_debug_msg_user_warning', E_USER_WARNING);
 
     $this->assertSame(
@@ -314,6 +327,7 @@ class LocalizationTest extends WP_UnitTestCase {
 
 }
 
+// custom error handler
 function handle_debug_msg_user_warning($errno, $errstr) {
   $test = new WP_UnitTestCase;
   $test->assertSame(

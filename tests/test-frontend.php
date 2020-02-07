@@ -61,23 +61,24 @@ class FrontEndTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * -- first part:
-     * - mock args
-     * - run callback function
-     * - check that the return value is correct
-     * -- second part:
-     * - mock args
-     * - run callback function
-     * - check that the return value is correct
      */
+
+    // AUCOR_CORE_EXCERPT_MORE()
+
+     // mock args
     $excerpt = 'Test string';
 
+    // check that the return value is correct
     $this->assertSame(
       '...', $class->aucor_core_excerpt_more($excerpt)
     );
 
+    // AUCOR_CORE_EXCERPT_LENGTH()
+
+    // mock args
     $length = 100;
 
+    // check that the return value is correct
     $this->assertEquals(
      20, $class->aucor_core_excerpt_length($length)
     );
@@ -100,33 +101,29 @@ class FrontEndTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * -- first part:
-     * - run callback function
-     * - check that the return value contains correct string
-     * -- second part:
-     * - mock args
-     * - run callback function
-     * - check that correct strings have been removed
      */
 
+    // AUCOR_CORE_NEXT_POSTS_ATTRIBUTES()
+
+    // check that the return value contains correct string
     $this->assertStringContainsString(
       ' itemprop="relatedLink/pagination" ', $class->aucor_core_next_posts_attributes('')
     );
 
-    $tag1 = "type='text/javascript' ";
+    // AUCOR_CORE_CLEANUP_SCRIPT_TAGS()
 
+    // mock args
+    $tag1 = "type='text/javascript' ";
+    $tag2 = 'type="text/javascript" ';
+    $tag3 = 'Test ';
+
+    // check that the strings has been removed
     $this->assertEmpty(
       $class->aucor_core_cleanup_script_tags($tag1)
     );
-
-    $tag2 = 'type="text/javascript" ';
-
     $this->assertEmpty(
       $class->aucor_core_cleanup_script_tags($tag2)
     );
-
-    $tag3 = 'Test ';
-
     $this->assertNotEmpty(
       $class->aucor_core_cleanup_script_tags($tag3)
     );

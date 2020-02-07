@@ -61,35 +61,37 @@ class DebugTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * -- first part:
-     * - run callback function
-     * - check that return value is empty
-     * -- second part:
-     * - set global $_GET variable
-     * - run callback function
-     * - check that return value is not empty
-     * -- third part:
-     * - add filter to override content
-     * - check that returned value equals set content
      */
+
+    // run callback function
     $content = $class->aucor_core_style_guide_markup('');
+
+    // check that return value is empty
     $this->assertEmpty(
       $content
     );
 
-     $_GET['ac-debug'] = 'styleguide';
+    // set global $_GET variable
+    $_GET['ac-debug'] = 'styleguide';
 
+    // run callback function
     $content = $class->aucor_core_style_guide_markup('');
+
+    // check that return value is not empty
     $this->assertNotEmpty(
       $content
     );
 
+    // add filter to override content
     add_filter('aucor_core_custom_markup', function($arg) {
       $arg = 'Test markup';
       return $arg;
     });
 
+    // run callback function
     $content = $class->aucor_core_style_guide_markup('');
+
+    // check that returned value equals set content
     $this->assertSame(
       'Test markup', $content
     );
@@ -112,30 +114,29 @@ class DebugTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * -- first part:
-     * - buffer output
-     * - run callback function
-     * - check that the return value is empty
-     * -- second part:
-     * - set the global $_GET variable
-     * - run callback function
-     * - check the return value for keywords
      */
 
+    // buffer output
     ob_start();
+
+    // run callback function
     $class->aucor_core_wireframe();
     $output = ob_get_contents();
     ob_clean();
 
+    // check that the return value is empty
     $this->assertEmpty(
       $output
     );
 
+    // set the global $_GET variable
     $_GET['ac-debug'] = 'wireframe';
 
+    // run callback function
     $class->aucor_core_wireframe();
     $output = ob_get_clean();
 
+    // check the return value for keywords
     $this->assertStringContainsString(
       'outline: 1px solid !important;', $output
     );

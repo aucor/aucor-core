@@ -61,9 +61,9 @@ class AdminTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - mock correct args
-     * - check that the callback function returns those args
      */
+
+    // mock correct args
     $args = array(
       'galleryDefaults' => array(
         'link'    => 'file',
@@ -71,6 +71,7 @@ class AdminTest extends WP_UnitTestCase {
         'columns' => '2',
       )
     );
+    // check that the callback function returns those args
     $this->assertEquals(
       $args, $class->aucor_core_gallery_defaults(array())
     );
@@ -93,12 +94,15 @@ class AdminTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - inject a wrong value to options
-     * - run callback function
-     * - get the option and check that it's correct
      */
+
+    // inject a wrong value to options
     update_option('image_default_link_type', 'file');
+
+    //run callback function
     $class->aucor_core_default_image_link_to_none();
+
+    // check that the option is correct
     $this->assertEquals(
       'none', get_option('image_default_link_type')
     );
@@ -121,8 +125,9 @@ class AdminTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - check that the callback functions return correct values
      */
+
+    // check that the callback functions return correct values
     $this->assertEquals(
       get_bloginfo('name'), $class->aucor_core_login_logo_url_title('Test')
     );
@@ -148,28 +153,23 @@ class AdminTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - create an admin user and set it as the current user
-     * - mock args (menu and submenu pages)
-     * - run the callback function
-     * - check if the subpages are present by title (should be)
-     * - create a user with insufficient capabilities and set it as the current user
-     * - run the callback function
-     * - check if the subpages are present (should not be)
      */
+
     global $menu, $submenu;
 
+    // create an admin user and set it as the current user
     $user_admin = $this->factory->user->create(array('role' => 'administrator'));
     wp_set_current_user($user_admin);
 
+    // mock menu and submenu pages
     add_menu_page('Appearance', 'Appearance', 'switch_themes', 'themes.php');
     add_submenu_page('themes.php', 'Themes', 'Themes', 'switch_themes', 'themes.php');
     add_submenu_page('themes.php', 'Customize', 'Customize', 'customize', 'customize.php');
 
-    // $this->expectOutputString('foo');
-    // print_r($submenu);
-
+    // run the callback function
     $class->aucor_core_cleanup_admin_menu();
 
+    // check that the subpages are present
     $this->assertTrue(
       in_array('Themes', $submenu['themes.php'][0])
     );
@@ -178,11 +178,14 @@ class AdminTest extends WP_UnitTestCase {
       in_array('Customize', $submenu['themes.php'][1])
     );
 
+    // create a user with insufficient capabilities and set it as the current user
     $user_sub = $this->factory->user->create(array('role' => 'subscriber'));
     wp_set_current_user($user_sub);
 
+    // run the callback function
     $class->aucor_core_cleanup_admin_menu();
 
+    // check that the subpages have been removed
     $this->assertSame(
       array(), $submenu['themes.php']
     );
@@ -205,28 +208,28 @@ class AdminTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - create an admin user and set it as the current user
-     * - run the callback function
-     * - check if the callback is present by comparing to the callbacks priority (should be)
-     * - create a user with insufficient capabilities and set it as the current user
-     * - run the callback function
-     * - check if the callback is present by by comparing the callbacks priority (should not be, returns false)
      */
 
+     // create an admin user and set it as the current user
     $user_admin = $this->factory->user->create(array('role' => 'administrator'));
     wp_set_current_user($user_admin);
 
+    // run the callback function
     $class->aucor_core_remove_update_nags_for_non_admins();
 
+    // check that the callback is present by comparing to the callbacks priority
     $this->assertEquals(
       3, has_action('admin_notices', 'update_nag')
     );
 
+    // create a user with insufficient capabilities and set it as the current user
     $user_sub = $this->factory->user->create(array('role' => 'subscriber'));
     wp_set_current_user($user_sub);
 
+    // run the callback function
     $class->aucor_core_remove_update_nags_for_non_admins();
 
+    // check that the callback has been removed
     $this->assertFalse(
       has_action('admin_notices', 'update_nag')
     );
@@ -249,19 +252,18 @@ class AdminTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * -- first part:
-     * - check that the actions have been removed
-     * (the removing happens right after initialization insead of i a hook)
-     * -- second part:
-     * - mock args
-     * - check that the callback functions return correct values
      */
+
     global $wp_filter;
 
+    // check that the actions have been removed
     $this->assertArrayNotHasKey(
       'admin_color_scheme_picker', $wp_filter
     );
 
+    // AUCOR_CORE_REMOVE_CONTACT_METHODS()
+
+    // mock args
     $args = array(
       'aim'        => '',
       'jabber'     => '',
@@ -270,12 +272,15 @@ class AdminTest extends WP_UnitTestCase {
       'twitter'    => '',
       'facebook'   => ''
     );
+
+    // check that the callback functions return correct values
     $this->assertSame(
       array(), $class->aucor_core_remove_contact_methods($args)
     );
   }
 
   public function test_admin_remove_customizer() {
+
     // needed to mock the admin bar
     require_once ABSPATH . WPINC . '/class-wp-admin-bar.php';
 
@@ -295,22 +300,24 @@ class AdminTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - mock args (admin bar)
-     * - run callback function
-     * - check if the node is present by it's key (should not be)
      */
+
+    // mock admin bar
     $args = new WP_Admin_Bar;
     $args->add_node(array(
         'id' => 'customize'
       )
     );
+    // add extra item so the admin bar isn't empty when checking after removal
     $args->add_node(array(
         'id' => 'test'
       )
     );
 
+    // run callback function
     $class->aucor_core_remove_customizer_admin_bar($args);
 
+    // check that the node has been removed
     $this->assertArrayNotHasKey(
       'customize', $args->get_nodes()
     );

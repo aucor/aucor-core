@@ -61,14 +61,11 @@ class DashboardTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - mock args (meta boxes to be removed)
-     * - check if boxes are present (should be)
-     * - run callback function
-     * - check if boxes' callbacks are present (should not be)
-     * - nested for loops are not ideal, but with such a limited amount of inputs still manageable
      */
+
     global $wp_meta_boxes;
 
+    // mock metaboxes
     $args = array(
       array('dashboard_right_now', 'normal'),
       array('dashboard_recent_comments', 'normal'),
@@ -92,13 +89,18 @@ class DashboardTest extends WP_UnitTestCase {
       );
     }
 
+    // check that the boxes are present
     $this->assertNotEmpty(
       $wp_meta_boxes
     );
 
+    // run callback function
     $class->aucor_core_admin_dashboard();
 
-    // first context
+    // check that the boxes' callbacks have been removed (which means they won't appear)
+    // nested for loops are not ideal, but with such a limited amount of inputs it's still manageable
+
+    // main context
     $normal_empty = true;
     foreach ($wp_meta_boxes['dashboard']['normal'] as $priority => $list) {
       foreach ($list as $key => $value) {
@@ -111,7 +113,7 @@ class DashboardTest extends WP_UnitTestCase {
       $normal_empty, 'Normal context not empty'
     );
 
-    // second context
+    // side context
     $side_empty = true;
     foreach ($wp_meta_boxes['dashboard']['side'] as $priority => $list) {
       foreach ($list as $key => $value) {
@@ -142,30 +144,22 @@ class DashboardTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * -- first part:
-     * - run callback function
-     * - check that the meta box is present by key
-     * -- second part:
-     * - mock args (users, posts, revisions)
-     * - buffer output
-     * - run callback function
-     * - check posts' visibility with high capabilities by searching for keywords
-     * - add (and indirectly test) filter to lower viewing capabilities
-     * - check posts' visibility with lower capabilities by searching keywords
-     * -- third part:
-     * - mock args
-     * - check that helper function returns correct values
-     * -- fourth part:
-     * - check that the styles are included in the right views
      */
     global $wp_meta_boxes;
 
+    // REGISTER_AUCOR_RECENT_WIDGET()
+
+    // run callback function
     $class->register_aucor_recent_dashboard_widget();
 
+    // check that the meta box is present
     $this->assertArrayHasKey(
       'aucor_recent_dashboard_widget', $wp_meta_boxes['dashboard']['side']['high']
     );
 
+    // AUCOR_RECENT_DASHBOARD_WIDGET_DISPLAY()
+
+    // mock users, posts, revisions
     $user1 = $this->factory->user->create(array('role' => 'editor'));
     wp_set_current_user($user1);
     $post1 = $this->factory->post->create(array('post_author' => $user1, 'post_title' => 'Test 1'));
@@ -199,11 +193,15 @@ class DashboardTest extends WP_UnitTestCase {
       'post_author' => $user1, // revision by current user, but on another author's post
     ));
 
+    // buffer output
     ob_start();
+
+    // run callback function
     $class->aucor_recent_dashboard_widget_display();
     $high_capabilities = ob_get_contents();
     ob_clean();
 
+    // check posts' visibility with high capabilities by searching for keywords
     // should see own posts
     $this->assertStringContainsString(
       'Test 1 (Post)', $high_capabilities
@@ -223,15 +221,17 @@ class DashboardTest extends WP_UnitTestCase {
       'Test 2 (Post)', $high_capabilities
     );
 
-    // lower user capabilities
+    // add (and indirectly test) filter to lower viewing capabilities
     add_filter('aucor_core_recent_widget_user_blacklist', function ($array) {
       array_push($array, 'editor');
       return $array;
     });
 
+    // run callback function
     $class->aucor_recent_dashboard_widget_display();
     $lowered_capabilities = ob_get_clean();
 
+    // check posts' visibility with lower capabilities by searching for keywords
     // should (still) see own post
     $this->assertStringContainsString(
       'Test 1 (Post)', $lowered_capabilities
@@ -252,7 +252,9 @@ class DashboardTest extends WP_UnitTestCase {
       'Test 2 (Post)', $lowered_capabilities
     );
 
-    // create an "old" post
+    // AUCOR_CORE_ORDER_POSTS_ARRAY_BY_MODIFIED_DATE()
+
+    // mock an "old" post
     // must be done with wp_insert_post so that the post_modified argument can be modified
     $post3 = wp_insert_post(array(
       'post_title' => 'Test 3',
@@ -261,20 +263,27 @@ class DashboardTest extends WP_UnitTestCase {
       'post_modified' =>'2010-01-01 11:11:11',
     ));
 
+    // check that helper function returns correct values
     // the helper function is used by usort and should return a value >= 0 if the first date is newer
     $this->assertGreaterThanOrEqual(
       0, $class->aucor_core_order_posts_array_by_modified_date(get_post($post1), get_post($post3))
     );
 
+    // AUCOR_RECENT_DASHBOARD_WIDGET_STYLES()
+
     global $wp_styles;
 
-    // should not be (even) created
+    // run callback function
     $class->aucor_recent_dashboard_widget_styles('test.php');
+
+    //check that the styles are not included (not even created)
     $this->assertIsNotObject(
       $wp_styles
     );
-    // should be queued
+
+    // run callback function
     $class->aucor_recent_dashboard_widget_styles('index.php');
+    // check that the styles are included (queued)
     $this->assertSame(
       'aucor_core-dashboard-widget-styles', $wp_styles->queue[0]
     );
@@ -297,8 +306,9 @@ class DashboardTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - check that the actions don't exist
      */
+
+    // check that the actions don't have the hooks
     $this->assertFalse(
       has_action('try_gutenberg_panel', 'wp_try_gutenberg_panel')
     );

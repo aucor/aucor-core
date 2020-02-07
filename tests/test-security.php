@@ -61,8 +61,9 @@ class SecurityTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - check that the filter has the __return function hooked to it
      */
+
+    // check that the filter has the __return function hooked to it
     $this->assertSame(
       10, has_filter('admin_email_check_interval', '__return_false')
     );
@@ -85,8 +86,9 @@ class SecurityTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - check defined constant
      */
+
+    // check defined constant
     $this->assertTrue(
       DISALLOW_FILE_EDIT
     );
@@ -109,8 +111,9 @@ class SecurityTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - check defined constant
      */
+
+    // check defined constant
     $this->assertTrue(
       DISALLOW_UNFILTERED_HTML
     );
@@ -133,19 +136,9 @@ class SecurityTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * -- first part:
-     * - check that the two first filters have the __return function hooked to them
-     * -- second part:
-     * - mock args
-     * - run callback function
-     * - check that the callback function has removed correct value
-     * -- third part:
-     * - mock args
-     * - run callback function
-     * - check that the callback function has removed correct value
-     * -- fourth part:
-     * - check that the actions have been removed
      */
+
+    // check that the filters have the __return function hooked to them
     $this->assertSame(
       10, has_filter('the_generator', '__return_empty_string')
     );
@@ -153,19 +146,29 @@ class SecurityTest extends WP_UnitTestCase {
       10, has_filter('xmlrpc_enabled', '__return_false')
     );
 
+    // AUCOR_CORE_REMOVE_PINGBACK_HEADER()
+
+    // mock args
     // include a second item so array isn't empty on deletion
     $headers = array('X-Pingback' => '', 'Test'  => '');
 
+    // check that the callback function has removed the correct value
     $this->assertArrayNotHasKey(
       'X-Pingback', $class->aucor_core_remove_pingback_header($headers)
     );
 
+    // AUCOR_CORE_REMOVE_PINGBACK_FUNCTIONALITY()
+
+    // mock args
+    // include a second item so array isn't empty on deletion
     $methods = array('pingback.ping' => '', 'Test' => '');
 
+    // check that the callback function has removed the correct value
     $this->assertArrayNotHasKey(
       'pingback.ping', $class->aucor_core_remove_pingback_functionality($methods)
     );
 
+    // check taht the actions have been removed
     $this->assertFalse(
       has_action('wp_head', 'rsd_link')
     );
@@ -215,48 +218,51 @@ class SecurityTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * -- first part:
-     * - mock args
-     * - run callback function
-     * - check that the correct value is returned
-     * - set current screen to admin screen
-     * - run callback function
-     * - check that the correct value is returned
-     * -- second part:
-     * - mock args
-     * - check that the correct value is returned
-     * -- third part:
-     * - mock args
-     * - check that the correct value is returned
      */
+
+    // AUCOR_CORE_RENAME_AUTHORS()
+
+    // mock args
     $name = 'Test';
 
+    // check that the callback function returns the correct value
     $this->assertSame(
       get_bloginfo('name'), $class->aucor_core_rename_authors($name)
     );
 
+    // set current screen to admin screen
     set_current_screen('index.php');
 
+    // check that the callback function returns the correct value
     $this->assertSame(
       'Test', $class->aucor_core_rename_authors($name)
     );
 
+    // AUCOR_CORE_AUTHOR_LINK_TO_FRONT_PAGE()
+
+    // mock args
     $url = 'Test';
 
+    // check that the callback function returns the correct value
     $this->assertSame(
       get_site_url(), $class->aucor_core_author_link_to_front_page($url)
     );
 
+    // AUCOR_CORE_DISABLE_USER_ENDPOINTS()
+
+    // mock args
     // include a second item so that the array isn't empty when the first item is removed
     // a "random" item also makes it possible to cover the path when !is_set('/wp/v2/users') instead of using the second looked for key
     $endpoints = array('/wp/v2/users' => '', 'Test' => '');
 
+    // check that the callback function returns the correct value
     $this->assertArrayNotHasKey(
       '/wp/v2/users', $class->aucor_core_disable_user_endpoints($endpoints)
     );
 
     $endpoints['/wp/v2/users/(?P<id>[\d]+)'] = '';
 
+    // check that the callback function returns the correct value
     $this->assertArrayNotHasKey(
       '/wp/v2/users', $class->aucor_core_disable_user_endpoints($endpoints)
     );
@@ -279,25 +285,23 @@ class SecurityTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - mock args
-     * - run callback function
-     * - check that the return value is correct
-     * - increase user capabilities
-     * - run callback function
-     * - check that the return value is correct
      */
 
+    // mock user, post, comments, args
     $user = $this->factory->user->create(array('role' => 'subscriber', 'user_email' => 'user@user.user'));
     $post = $this->factory->post->create(array('post_author' => $user));
     $comment = $this->factory->comment->create(array('comment_post_ID' => $post));
     $emails = array('admin@admin.admin');
 
+    // check that the callback function returns correct value
     $this->assertSame(
       array('admin@admin.admin'), $class->aucor_core_comment_moderation_post_author_only($emails, $comment)
     );
 
+    // increase user capabilities
     get_userdata($user)->set_role('editor');
 
+    // check that the callback function returns correct value
     $this->assertSame(
       array('user@user.user'), $class->aucor_core_comment_moderation_post_author_only($emails, $comment)
     );
@@ -320,32 +324,16 @@ class SecurityTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * -- first part:
-     * - run callback function
-     * - check that support has been removed from post types
-     * -- second part:
-     * - mock args
-     * - run callback function
-     * - check that the menu item has been removed
-     * -- third part:
-     * - TODO
-     * -- fourth part:
-     * - mock args
-     * - run callback function
-     * - check that the correct item has been removed
-     * -- fifth part:
-     * - mock args
-     * - run callback function
-     * - check that the return value is correct
-     * -- sixth part:
-     * - check filter hooks
-     * -- seventh part:
-     * - check filter hooks
      */
+
+    // AUCOR_CORE_DISABLE_COMMENTS_POST_TYPES_SUPPORT()
+
+    // run callback function
     $class->aucor_core_disable_comments_post_types_support();
 
     $post_types = get_post_types();
 
+    // check that support has been removed from post types
     foreach ($post_types as $post_type) {
       $this->assertFalse(
         post_type_supports($post_type, 'comments'), $post_type . ' supports comments'
@@ -355,17 +343,26 @@ class SecurityTest extends WP_UnitTestCase {
       );
     }
 
+    // AUCOR_CORE_DISABLE_COMMENTS_ADMIN_MENU()
+
     global $menu;
 
+    // mock menu pages
     add_menu_page('Comments', 'Comments', 'edit_posts', 'edit-comments.php');
 
+    // run callback function
     $class->aucor_core_disable_comments_admin_menu();
 
+    // check that the menu item has been removed
     foreach ($menu as $item) {
       $this->assertNotEquals(
         'edit-comments.php', $item[2], $item[0] . ' contains edit-comments.php'
       );
     }
+
+    // AUCOR_CORE_DISABLE_COMMENTS_ADMIN_MENU_REDIRECT()
+
+    // this function is only partially covered, as the other branch calls exit, which makes it untestable
 
     global $pagenow;
     $pagenow = 'index.php';
@@ -379,8 +376,11 @@ class SecurityTest extends WP_UnitTestCase {
     // $pagenow = 'edit-comments.php';
     // $class->aucor_core_disable_comments_admin_menu_redirect();
 
+    // AUCOR_CORE_DISABLE_COMMENTS_DASHBOARD()
+
     global $wp_meta_boxes;
 
+    // mock metabox
     add_meta_box(
       'dashboard_recent_comments',
       'Test',
@@ -389,37 +389,56 @@ class SecurityTest extends WP_UnitTestCase {
       'normal'
     );
 
+    // check taht the metabox is present
     $this->assertNotEmpty(
       $wp_meta_boxes['dashboard']['normal']['default']['dashboard_recent_comments']
     );
 
+    // run callback function
     $class->aucor_core_disable_comments_dashboard();
 
+    // check that the correct item has been removed
     $this->assertEmpty(
       $wp_meta_boxes['dashboard']['normal']['default']['dashboard_recent_comments']
     );
 
+    // AUCOR_CORE_ADMIN_BAR_RENDER()
+
     global $wp_admin_bar;
 
+    // mock admin bar
+    $wp_admin_bar = new WP_Admin_Bar;
     $wp_admin_bar->add_node(array(
-        'id'    => 'comments',
+        'id' => 'comments'
+      )
+    );
+    // add extra item so the admin bar isn't empty when checking after removal
+    $wp_admin_bar->add_node(array(
+        'id' => 'test'
       )
     );
 
+    // run callback function
     $class->aucor_core_admin_bar_render();
 
+    // check that the correct value has been removed
     $this->assertArrayNotHasKey(
       'comments', $wp_admin_bar->get_nodes()
     );
 
+    // AUCOR_CORE_DISABLE_COMMENTS_HIDE_EXISTING_COMMENTS()
+
+    // mock comments
     $comment1 = $this->factory->comment->create();
     $comment2 = $this->factory->comment->create();
     $comments =  array($comment1, $comment2);
 
+    // check that the callback function returns correct values
     $this->assertSame(
       array(), $class->aucor_core_disable_comments_hide_existing_comments($comments)
     );
 
+    // check that hooks have been added to the filters
     $this->assertSame(
       20, has_filter('comments_open', '__return_false')
     );

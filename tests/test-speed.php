@@ -61,13 +61,13 @@ class SpeedTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - mock args
-     * - run callback function
-     * - check that the return value is correct
      */
+
+    // mock args
     $number = 10;
     $post_id = 1;
 
+    // check that the callback function returns correct values
     $this->assertSame(
       5, $class->aucor_core_limit_revision_number($number, $post_id)
     );
@@ -90,20 +90,18 @@ class SpeedTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - mock args
-     * - run callback function
-     * - check that data has not been added to the dependencies
-     * - move out of admin view
-     * - run callback function
-     * - check that scripts have been moved
      */
+
+    // mock args
     $scripts = new WP_Scripts();
     $scripts->add('jquery', false, array('jquery-core', 'jquery-migrate'));
     $scripts->add('jquery-core', '/jquery.js', array());
     $scripts->add('jquery-migrate', '/jquery-migrate.js', array());
 
+    // run callback function
     $class->aucor_core_move_jquery_into_footer($scripts);
 
+    // check that data has not beed added to the dependencies (group was not changed from default 0)
     $this->assertFalse(
       $scripts->get_data('jquery', 'group')
     );
@@ -114,17 +112,22 @@ class SpeedTest extends WP_UnitTestCase {
       $scripts->get_data('jquery-migrate', 'group')
     );
 
-    $this->go_to('/'); // get out of is_admin()
+    // move out of admin view (we set it previously in test-security as index.php)
+    $this->go_to('/');
 
+    // run callback function
     $class->aucor_core_move_jquery_into_footer($scripts);
 
+    // check output
     $this->expectOutputRegex('/^(?:<script[^>]+><\\/script>\\n){2}$/');
 
+    // check that nothing gets put in the done array
     $scripts->do_items('jquery', 0);
     $this->assertNotContains('jquery', $scripts->done);
     $this->assertNotContains('jquery-core', $scripts->done);
     $this->assertNotContains('jquery-migrate', $scripts->done);
 
+    // check that the items get ut in the done array (the group has changed)
     $scripts->do_items('jquery', 1);
     $this->assertContains('jquery', $scripts->done);
     $this->assertContains('jquery-core', $scripts->done);
@@ -148,11 +151,12 @@ class SpeedTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - run callback function
-     * - check that filters and actions have been removed
      */
+
+    // run callback function
     $class->aucor_core_disable_emojis();
 
+    // check that filters and actions have been removed
     $this->assertFalse(
       has_action('wp_head', 'print_emoji_detection_script', 7)
     );
@@ -193,12 +197,11 @@ class SpeedTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - mock args
-     * - check meta box is present (should be)
-     * - run callback function
-     * - check meta box has been removed
      */
+
     global $wp_meta_boxes;
+
+    // mock metabox
     add_meta_box(
       'postcustom',
       'Test',
@@ -207,12 +210,16 @@ class SpeedTest extends WP_UnitTestCase {
       'normal',
       'core'
     );
+
+    // check that the box is present
     $this->assertArrayHasKey(
       'postcustom', $wp_meta_boxes['post']['normal']['core']
     );
 
+    // run callback function
     $class->aucor_core_remove_post_meta_metabox();
 
+    // check that the meta box has been removed
     $this->assertEmpty(
       $wp_meta_boxes['post']['normal']['core']['postcustom']
     );

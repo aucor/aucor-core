@@ -61,11 +61,12 @@ class ClassicEditorTest extends WP_UnitTestCase {
 
     /**
      * Run
-     * - mock args
-     * - check that the callback function returns correct value
      */
+
+    // mock args
     $args = array('wordpress_adv_hidden' => true);
 
+    // check that the callback function returns correct value
     $this->assertFalse(
       $class->aucor_core_show_second_editor_row($args)['wordpress_adv_hidden']
     );
