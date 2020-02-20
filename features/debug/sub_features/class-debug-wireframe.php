@@ -49,7 +49,7 @@ class Aucor_Core_Debug_Wireframe extends Aucor_Core_Sub_Feature {
         }
       });
     </script>
-    <?php
+      <?php
     }
   }
 }
