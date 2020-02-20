@@ -284,8 +284,8 @@ class DashboardTest extends WP_UnitTestCase {
     // run callback function
     $class->aucor_recent_dashboard_widget_styles('test.php');
 
-    //check that the styles are not included (not even created)
-    $this->assertIsNotObject(
+    //check that the styles are not included (null)
+    $this->assertEmpty(
       $wp_styles
     );
 

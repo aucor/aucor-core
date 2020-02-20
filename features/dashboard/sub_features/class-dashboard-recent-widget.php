@@ -165,7 +165,7 @@ class Aucor_Core_Dashboard_Recent_Widget extends Aucor_Core_Sub_Feature {
   }
 
   /**
-   * Enque custom styles
+   * Enqueue custom styles
    */
   public static function aucor_recent_dashboard_widget_styles($hook) {
     if ($hook == 'index.php') {
