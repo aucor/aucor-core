@@ -10,7 +10,7 @@ notifications:
 
 branches:
   only:
-    - tests
+    - travis_test
 
 cache:
   directories:
