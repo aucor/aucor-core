@@ -151,10 +151,10 @@ class DebugTest extends WP_UnitTestCase {
     $output = ob_get_clean();
 
     // check the return value for keywords
-    $this->assertStringContainsString(
+    $this->assertContains(
       'outline: 1px solid !important;', $output
     );
-    $this->assertStringContainsString(
+    $this->assertContains(
       "links[i].href += '?ac-debug=wireframe';", $output
     );
   }

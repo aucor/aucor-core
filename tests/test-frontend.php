@@ -122,7 +122,7 @@ class FrontEndTest extends WP_UnitTestCase {
     // AUCOR_CORE_NEXT_POSTS_ATTRIBUTES()
 
     // check that the return value contains correct string
-    $this->assertStringContainsString(
+    $this->assertContains(
       ' itemprop="relatedLink/pagination" ', $class->aucor_core_next_posts_attributes('')
     );
 

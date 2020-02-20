@@ -339,7 +339,7 @@ function handle_debug_msg_user_warning($errno, $errstr) {
     E_USER_WARNING, $errno
   );
 
-  $test->assertStringContainsString(
+  $test->assertContains(
     'Localization error - Missing string by', $errstr
   );
 }

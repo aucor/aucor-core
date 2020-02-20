@@ -211,21 +211,21 @@ class DashboardTest extends WP_UnitTestCase {
 
     // check posts' visibility with high capabilities by searching for keywords
     // should see own posts
-    $this->assertStringContainsString(
+    $this->assertContains(
       'Test 1 (Post)', $high_capabilities
     );
-    $this->assertStringContainsString(
+    $this->assertContains(
       'Test 1_2 (Post)', $high_capabilities
     );
-    $this->assertStringContainsString(
+    $this->assertContains(
       'Test 1_3 (Post)', $high_capabilities
     );
     // should see others posts that has the users revision
-    $this->assertStringContainsString(
+    $this->assertContains(
       'Test 2_1 (Post)', $high_capabilities
     );
     // should see others posts
-    $this->assertStringContainsString(
+    $this->assertContains(
       'Test 2 (Post)', $high_capabilities
     );
 
@@ -241,22 +241,22 @@ class DashboardTest extends WP_UnitTestCase {
 
     // check posts' visibility with lower capabilities by searching for keywords
     // should (still) see own post
-    $this->assertStringContainsString(
+    $this->assertContains(
       'Test 1 (Post)', $lowered_capabilities
     );
-    $this->assertStringContainsString(
+    $this->assertContains(
       'Test 1_2 (Post)', $lowered_capabilities
     );
-    $this->assertStringContainsString(
+    $this->assertContains(
       'Test 1_3 (Post)', $lowered_capabilities
     );
     // should (still) see post of own draft
-    $this->assertStringContainsString(
+    $this->assertContains(
       'Test 2_1 (Post)', $lowered_capabilities
     );
 
     // should not see others posts
-    $this->assertStringNotContainsString(
+    $this->assertNotContains(
       'Test 2 (Post)', $lowered_capabilities
     );
 
