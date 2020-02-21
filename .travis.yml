@@ -22,8 +22,24 @@ jobs:
       env: WP_TRAVISCI=phpcs
     - php: 7.3
       env: WP_VERSION=latest
+    - php: 7.3
+      env: WP_VERSION=5.2
+    - php: 7.3
+      env: WP_VERSION=5.1
+    - php: 7.3
+      env: WP_VERSION=5.0
+    - php: 7.3
+      env: WP_VERSION=4.9
     - php: 7.2
       env: WP_VERSION=latest
+    - php: 7.2
+      env: WP_VERSION=5.2
+    - php: 7.2
+      env: WP_VERSION=5.1
+    - php: 7.2
+      env: WP_VERSION=5.0
+    - php: 7.2
+      env: WP_VERSION=4.9
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
