@@ -43,7 +43,6 @@ jobs:
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - composer install --prefer-dist --no-interaction
   - |
     # Remove Xdebug for a huge performance increase:
     if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
@@ -56,13 +55,24 @@ before_script:
     if [[ ! -z "$WP_VERSION" ]] ; then
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
     fi
+  - |
+    # Install PHPUnit (version depending on WP version, older cores are incompatible with latest PHPUnit 7)
+    if [[ "$WP_VERSION" == "5.0" || "$WP_VERSION" == "4.9" ]] ; then
+      composer global require "phpunit/phpunit:^6"
+    else
+      composer global require "phpunit/phpunit:^7"
+    fi
+  - |
+    if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
+      composer require "squizlabs/php_codesniffer:^3"
+    fi
 
 script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
-      ./vendor/bin/phpunit
+      phpunit
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
-      ./vendor/bin/phpcs
+      phpcs --extensions=php --ignore=*/vendor/*
     fi

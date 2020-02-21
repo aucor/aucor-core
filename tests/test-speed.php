@@ -127,7 +127,7 @@ class SpeedTest extends WP_UnitTestCase {
     );
 
     // move out of admin view (we set it previously in test-security as index.php)
-    $this->go_to('/');
+    unset($GLOBALS['current_screen']);
 
     // run callback function
     $class->aucor_core_move_jquery_into_footer($scripts);
