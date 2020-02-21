@@ -1,3 +1,4 @@
+os: linux
 dist: trusty
 
 language: php
@@ -15,23 +16,34 @@ cache:
   directories:
     - $HOME/.composer/cache
 
-matrix:
+jobs:
   include:
+    - php: 7.3
+      env: WP_TRAVISCI=phpcs
+    - php: 7.3
+      env: WP_VERSION=latest
+    - php: 7.3
+      env: WP_VERSION=5.2
+    - php: 7.3
+      env: WP_VERSION=5.1
+    - php: 7.3
+      env: WP_VERSION=5.0
+    - php: 7.3
+      env: WP_VERSION=4.9
     - php: 7.2
       env: WP_VERSION=latest
-    - php: 7.1
-      env: WP_VERSION=latest
-    - php: 7.0
-      env: WP_VERSION=latest
-    - php: 5.6
-      env: WP_VERSION=4.7.3
-    - php: 5.6
-      env: WP_VERSION=latest
-    - php: 5.6
-      env: WP_VERSION=trunk
+    - php: 7.2
+      env: WP_VERSION=5.2
+    - php: 7.2
+      env: WP_VERSION=5.1
+    - php: 7.2
+      env: WP_VERSION=5.0
+    - php: 7.2
+      env: WP_VERSION=4.9
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - composer install --prefer-dist --no-interaction
   - |
     # Remove Xdebug for a huge performance increase:
     if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
@@ -44,25 +56,13 @@ before_script:
     if [[ ! -z "$WP_VERSION" ]] ; then
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
     fi
-  - |
-    # Install PHPUnit (version depends on PHP version)
-    if [[ "$TRAVIS_PHP_VERSION" == "5.6" || "$TRAVIS_PHP_VERSION" == "7.0" ]]; then
-      composer global require "phpunit/phpunit:^5"
-    else
-      composer global require "phpunit/phpunit:^7"
-    fi
-  - |
-    # Install Codesniffer
-    if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
-      composer global require "squizlabs/php_codesniffer:^3"
-    fi
 
 script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
-      phpunit
+      .vendor/bin/phpunit
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
-      phpcs --extensions=php --ignore=*/node_modules/*,*/vendor/*
+      .vendor/bin/phpcs
     fi
