@@ -47,7 +47,7 @@
     "lazypipe": "^1.0.1",
     "lazysizes": "^4.0.4",
     "merge-stream": "^1.0.1",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.2",
     "objectFitPolyfill": "^2.1.1",
     "run-sequence": "^2.2.1",
     "sass-toolkit": "^2.10.2",
