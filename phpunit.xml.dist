@@ -9,7 +9,15 @@
 	>
 	<testsuites>
 		<testsuite name="features">
-			<directory prefix="test-" suffix=".php">./tests/</directory>
+			<directory prefix="test-" suffix=".php">./tests/admin/</directory>
+      <directory prefix="test-" suffix=".php">./tests/classic-editor/</directory>
+      <directory prefix="test-" suffix=".php">./tests/dashboard/</directory>
+      <directory prefix="test-" suffix=".php">./tests/debug/</directory>
+      <directory prefix="test-" suffix=".php">./tests/frontend/</directory>
+      <directory prefix="test-" suffix=".php">./tests/localization/</directory>
+      <directory prefix="test-" suffix=".php">./tests/plugins/</directory>
+      <directory prefix="test-" suffix=".php">./tests/security/</directory>
+      <directory prefix="test-" suffix=".php">./tests/speed/</directory>
 		</testsuite>
 	</testsuites>
   <filter>

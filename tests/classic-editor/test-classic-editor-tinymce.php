@@ -1,11 +1,11 @@
 <?php
 /**
- * Class ClassicEditorTest
+ * Class ClassicEditorTinymceTest
  *
  * @package Aucor_Core
  */
 
-class ClassicEditorTest extends WP_UnitTestCase {
+class ClassicEditorTinymceTest extends WP_UnitTestCase {
 
   private $ce;
 
@@ -19,32 +19,9 @@ class ClassicEditorTest extends WP_UnitTestCase {
     parent::tearDown();
   }
 
-  // test CE feature
+  // test CE sub feature
 
-  public function test_ce() {
-    $class = $this->ce;
-    // key
-    $this->assertNotEmpty(
-      $class->get_key()
-    );
-    // name
-    $this->assertNotEmpty(
-      $class->get_name()
-    );
-    // status
-    $this->assertTrue(
-      $class->is_active()
-    );
-
-    // sub feature init
-    $this->assertNotEmpty(
-      $class->get_sub_features()
-    );
-  }
-
-  // test CE sub features
-
-  public function test_ce_tinymce() {
+  public function test_classic_editor_tinymce() {
     $class = $this->ce->get_sub_features()['aucor_core_classic_editor_tinymce'];
     // key
     $this->assertNotEmpty(
