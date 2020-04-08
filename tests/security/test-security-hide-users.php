@@ -101,6 +101,7 @@ class SecurityHideUsersTest extends WP_UnitTestCase {
 
     // log user out
     wp_logout();
+    wp_set_current_user(0);
 
     // check that the callback function returns the correct value
     $this->assertArrayNotHasKey(
