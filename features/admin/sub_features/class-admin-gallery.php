@@ -21,7 +21,7 @@ class Aucor_Core_Admin_Gallery extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_filter('media_view_settings', array('Aucor_Core_Admin_Gallery', 'aucor_core_gallery_defaults'));
+    add_filter('media_view_settings', array($this, 'aucor_core_gallery_defaults'));
   }
 
   /**

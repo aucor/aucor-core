@@ -21,7 +21,7 @@ class Aucor_Core_Admin_Remove_Customizer extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_action('admin_bar_menu', array('Aucor_Core_Admin_Remove_Customizer', 'aucor_core_remove_customizer_admin_bar'), 999);
+    add_action('admin_bar_menu', array($this, 'aucor_core_remove_customizer_admin_bar'), 999);
   }
 
   /**

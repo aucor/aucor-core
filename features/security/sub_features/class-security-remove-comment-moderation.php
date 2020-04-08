@@ -21,7 +21,7 @@ class Aucor_Core_Security_Remove_Comment_Moderation extends Aucor_Core_Sub_Featu
    * Run feature
    */
   public function run() {
-    add_filter('comment_moderation_recipients', array('Aucor_Core_Security_Remove_Comment_Moderation', 'aucor_core_comment_moderation_post_author_only'), 11, 2);
+    add_filter('comment_moderation_recipients', array($this, 'aucor_core_comment_moderation_post_author_only'), 11, 2);
   }
 
   /**

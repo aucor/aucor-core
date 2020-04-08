@@ -21,11 +21,11 @@ class Aucor_Core_Debug_Style_Guide extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_filter('the_content', array('Aucor_Core_Debug_Style_Guide', 'aucor_core_style_guide_markup'));
+    add_filter('the_content', array($this, 'aucor_core_style_guide_markup'));
   }
 
   /**
-   * Add style guide test markup if the GET parameter "?aucor_core=style_guide" is present in the url.
+   * Add style guide test markup if the GET parameter "?ac-debug=styleguide" is present in the url.
    * The aucor_core_custom_markup filter makes it possible to replace the default with custom markup
    *
    * @param string content from the_content()

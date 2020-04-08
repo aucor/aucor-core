@@ -21,7 +21,7 @@ class Aucor_Core_Dashboard_Cleanup extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_action('wp_dashboard_setup', array('Aucor_Core_Dashboard_Cleanup', 'aucor_core_admin_dashboard'), 99);
+    add_action('wp_dashboard_setup', array($this, 'aucor_core_admin_dashboard'), 99);
   }
 
   /**

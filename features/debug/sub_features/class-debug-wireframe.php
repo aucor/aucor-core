@@ -21,7 +21,7 @@ class Aucor_Core_Debug_Wireframe extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_action('wp_head', array('Aucor_Core_Debug_Wireframe', 'aucor_core_wireframe'), 10);
+    add_action('wp_head', array($this, 'aucor_core_wireframe'), 10);
   }
 
   /**
@@ -49,7 +49,7 @@ class Aucor_Core_Debug_Wireframe extends Aucor_Core_Sub_Feature {
         }
       });
     </script>
-    <?php
+      <?php
     }
   }
 }

@@ -21,7 +21,7 @@ class Aucor_Core_Speed_Limit_Revisions extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_filter('wp_revisions_to_keep', array('Aucor_Core_Speed_Limit_Revisions', 'aucor_core_limit_revision_number'), 10, 2);
+    add_filter('wp_revisions_to_keep', array($this, 'aucor_core_limit_revision_number'), 10, 2);
   }
 
   /**

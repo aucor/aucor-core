@@ -21,14 +21,16 @@ class Aucor_Core_Speed_Remove_Metabox extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_action('add_meta_boxes', array('Aucor_Core_Speed_Remove_Metabox', 'aucor_core_remove_post_meta_metabox'));
+    add_action('add_meta_boxes', array($this, 'aucor_core_remove_post_meta_metabox'));
   }
 
   /**
    * Remove slow performing post_meta metabox
    */
   public static function aucor_core_remove_post_meta_metabox() {
-    remove_meta_box('postcustom', null, 'normal');
+    foreach (get_post_types() as $type) {
+      remove_meta_box('postcustom', $type, 'normal');
+    }
   }
 
 }

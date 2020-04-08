@@ -1,4 +1,7 @@
 # Aucor Core
+
+[![Build Status](https://travis-ci.org/patricmanner/aucor-core.svg?branch=master)](https://travis-ci.org/patricmanner/aucor-core)
+
 Core plugin for WordPress projects. The plugin contains the features and settings generally deemed to be the most commonly used in all projects. It is meant to be used together with [aucor-starter](https://github.com/aucor/aucor-starter) but functions on it's own as well. Use the site specific plugin to configure the specs of this plugin.
 
 ## How to install

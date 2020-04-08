@@ -22,3 +22,9 @@ node_modules
 *.tar
 *.tgz
 *.gz
+
+# Files through Composer
+vendor
+
+# PHPUnit code coverage
+coverage

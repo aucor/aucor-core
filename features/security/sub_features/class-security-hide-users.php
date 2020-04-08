@@ -21,10 +21,10 @@ class Aucor_Core_Security_Hide_Users extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-      add_filter('the_author', array('Aucor_Core_Security_Hide_Users', 'aucor_core_rename_authors'), 100);
-      add_filter('the_modified_author', array('Aucor_Core_Security_Hide_Users', 'aucor_core_rename_authors'), 100);
-      add_filter('get_the_author_link', array('Aucor_Core_Security_Hide_Users', 'aucor_core_author_link_to_front_page'), 100);
-      add_filter('rest_endpoints', array('Aucor_Core_Security_Hide_Users','aucor_core_disable_user_endpoints'), 1000);
+      add_filter('the_author', array($this, 'aucor_core_rename_authors'), 100);
+      add_filter('the_modified_author', array($this, 'aucor_core_rename_authors'), 100);
+      add_filter('get_the_author_link', array($this, 'aucor_core_author_link_to_front_page'), 100);
+      add_filter('rest_endpoints', array($this,'aucor_core_disable_user_endpoints'), 1000);
   }
 
   /**
@@ -53,13 +53,17 @@ class Aucor_Core_Security_Hide_Users extends Aucor_Core_Sub_Feature {
   }
 
   /**
-   * Disable users from REST API
+   * Disable users from REST API for users that are not logged in
    *
    * @param array $endpoints registered routes
    *
    * @return array registered routes
    */
   public static function aucor_core_disable_user_endpoints($endpoints) {
+    if (is_user_logged_in()) {
+      return $endpoints;
+    }
+
     // disable list of users
     if (isset($endpoints['/wp/v2/users'])) {
       unset($endpoints['/wp/v2/users']);

@@ -21,7 +21,7 @@ class Aucor_Core_Plugins_Seo extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_action('wp_before_admin_bar_render', array('Aucor_Core_Plugins_Seo', 'aucor_core_yoast_admin_bar_render'));
+    add_action('wp_before_admin_bar_render', array($this, 'aucor_core_yoast_admin_bar_render'));
   }
 
   /**

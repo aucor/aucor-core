@@ -21,7 +21,7 @@ class Aucor_Core_Speed_Move_Jquery extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_action('wp_default_scripts', array('Aucor_Core_Speed_Move_Jquery', 'aucor_core_move_jquery_into_footer'));
+    add_action('wp_default_scripts', array($this, 'aucor_core_move_jquery_into_footer'));
   }
 
   /**

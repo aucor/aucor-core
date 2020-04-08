@@ -21,7 +21,7 @@ class Aucor_Core_Plugins_Redirection extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_filter('redirection_role', array('Aucor_Core_Plugins_Redirection', 'aucor_core_redirection_role'));
+    add_filter('redirection_role', array($this, 'aucor_core_redirection_role'));
   }
 
   /**

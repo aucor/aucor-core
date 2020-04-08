@@ -29,16 +29,10 @@ class Aucor_Core_Security_Head_Cleanup extends Aucor_Core_Sub_Feature {
     add_filter('xmlrpc_enabled', '__return_false');
 
     // Remove X-Pingback header
-    add_filter('wp_headers', function ($headers) {
-      unset($headers['X-Pingback']);
-      return $headers;
-    });
+    add_filter('wp_headers', array($this, 'aucor_core_remove_pingback_header'));
 
     // Remove Pingback functionality
-    add_filter( 'xmlrpc_methods', function ($methods) {
-      unset($methods['pingback.ping']);
-      return $methods;
-    });
+    add_filter('xmlrpc_methods', array($this, 'aucor_core_remove_pingback_functionality'));
 
     // Remove junk from head
     remove_action('wp_head', 'rsd_link');
@@ -51,6 +45,16 @@ class Aucor_Core_Security_Head_Cleanup extends Aucor_Core_Sub_Feature {
     remove_action('wp_head', 'adjacent_posts_rel_link', 10, 0);
     remove_action('wp_head', 'rest_output_link_wp_head', 10);
     remove_action('wp_head', 'wp_oembed_add_discovery_links', 10);
+  }
+
+  public static function aucor_core_remove_pingback_header($headers) {
+    unset($headers['X-Pingback']);
+    return $headers;
+  }
+
+  public static function aucor_core_remove_pingback_functionality($methods) {
+    unset($methods['pingback.ping']);
+    return $methods;
   }
 
 }

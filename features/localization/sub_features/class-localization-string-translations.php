@@ -21,20 +21,20 @@ class Aucor_Core_Localization_String_Translations extends Aucor_Core_Sub_Feature
    * Run feature
    */
   public function run() {
+    add_action('init', array($this, 'aucor_core_string_registration'));
+  }
 
-    /**
-     * String translations
-     */
-    add_action('init', function() {
-      if (function_exists('pll_register_string')) {
-        $group_name = get_bloginfo();
-        $strings = apply_filters('aucor_core_pll_register_strings', array());
-        foreach ($strings as $key => $value) {
-          pll_register_string($key, $value, $group_name);
-        }
+  /**
+   * String translations
+   */
+  public static function aucor_core_string_registration() {
+    if (function_exists('pll_register_string')) {
+      $group_name = get_bloginfo();
+      $strings = apply_filters('aucor_core_pll_register_strings', array());
+      foreach ($strings as $key => $value) {
+        pll_register_string($key, $value, $group_name);
       }
-    });
-
+    }
   }
 
 }
@@ -88,25 +88,30 @@ if (!function_exists('ask_e')) {
 /**
  * Get localized string by value
  *
- * @example asv__('Social share: Title')
+ * @example asv__('Share on social media')
  *
  * @param string $value default value for string
  * @param string $lang 2 character language code (defaults to current language)
  *
- * @return string translated value or key if not registered string
+ * @return string translated value or value if not registered string
  */
 if (!function_exists('asv__')) {
 
   function asv__($value, $lang = null) {
 
+    $strings = apply_filters('aucor_core_pll_register_strings', array());
+    if (array_search($value, $strings)) {
+      if ($lang === null) {
+        return pll__($value);
+      } else {
+        return pll_translate_string($value, $lang);
+      }
+    }
+
     // debug missing strings
     aucor_core_debug_msg('Localization error - Missing string by value {' . $value . '}', array('asv__', 'asv_e'));
 
-    if ($lang === null) {
-      return pll__($value);
-    } else {
-      return pll_translate_string($value, $lang);
-    }
+    return $value;
   }
 
 }

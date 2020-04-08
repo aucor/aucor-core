@@ -21,7 +21,7 @@ class Aucor_Core_Plugins_Acf extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_filter('acf/settings/show_admin', array('Aucor_Core_Plugins_Acf', 'aucor_core_hide_acf_from_nonadmins'));
+    add_filter('acf/settings/show_admin', array($this, 'aucor_core_hide_acf_from_nonadmins'));
   }
 
   /**

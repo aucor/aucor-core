@@ -21,8 +21,8 @@ class Aucor_Core_Admin_Login extends Aucor_Core_Sub_Feature {
    * Run feature
    */
   public function run() {
-    add_filter('login_headertext', array('Aucor_Core_Admin_Login', 'aucor_core_login_logo_url_title'));
-    add_filter('login_headerurl', array('Aucor_Core_Admin_Login', 'aucor_core_login_logo_url'));
+    add_filter('login_headertext', array($this, 'aucor_core_login_logo_url_title'));
+    add_filter('login_headerurl', array($this, 'aucor_core_login_logo_url'));
   }
 
   /**
