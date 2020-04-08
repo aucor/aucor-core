@@ -89,6 +89,19 @@ class SecurityHideUsersTest extends WP_UnitTestCase {
     // a "random" item also makes it possible to cover the path when !is_set('/wp/v2/users') instead of using the second looked for key
     $endpoints = array('/wp/v2/users' => '', 'Test' => '');
 
+    // create a user and log them in
+    $user = $this->factory->user->create();
+    wp_set_current_user($user);
+    wp_signon();
+
+    // check that the callback function returns the correct value
+    $this->assertArrayHasKey(
+      '/wp/v2/users', $class->aucor_core_disable_user_endpoints($endpoints)
+    );
+
+    // log user out
+    wp_logout();
+
     // check that the callback function returns the correct value
     $this->assertArrayNotHasKey(
       '/wp/v2/users', $class->aucor_core_disable_user_endpoints($endpoints)

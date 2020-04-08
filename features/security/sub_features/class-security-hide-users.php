@@ -53,13 +53,17 @@ class Aucor_Core_Security_Hide_Users extends Aucor_Core_Sub_Feature {
   }
 
   /**
-   * Disable users from REST API
+   * Disable users from REST API for users that are not logged in
    *
    * @param array $endpoints registered routes
    *
    * @return array registered routes
    */
   public static function aucor_core_disable_user_endpoints($endpoints) {
+    if (is_user_logged_in()) {
+      return $endpoints;
+    }
+
     // disable list of users
     if (isset($endpoints['/wp/v2/users'])) {
       unset($endpoints['/wp/v2/users']);
