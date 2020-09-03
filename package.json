@@ -45,7 +45,7 @@
     "jshint": "^2.9.5",
     "jshint-stylish": "^2.2.1",
     "lazypipe": "^1.0.1",
-    "lazysizes": "^4.0.4",
+    "lazysizes": "^5.2.1",
     "merge-stream": "^1.0.1",
     "minimist": "^1.2.0",
     "objectFitPolyfill": "^2.1.1",
