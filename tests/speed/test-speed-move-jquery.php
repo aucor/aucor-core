@@ -70,11 +70,19 @@ class SpeedMoveJqueryTest extends WP_UnitTestCase {
     // move out of admin view (we set it previously in test-security as index.php)
     unset($GLOBALS['current_screen']);
 
+    // WP 5.5 removed jquery-migrate, bit will be adding it back in 5.6, so perform a version check on some of the asserts
+    global $wp_version;
+    $minor = substr($wp_version, 0, 3); // for e.g. version 5.5.1 returns 5.5
+
     // run callback function
     $class->aucor_core_move_jquery_into_footer($scripts);
 
     // check output
-    $this->expectOutputRegex('/^(?:<script[^>]+><\\/script>\\n){2}$/');
+    if ($minor !== '5.5') {
+      $this->expectOutputRegex('/^(?:<script[^>]+><\\/script>\\n){2}$/');
+    } else {
+      $this->expectOutputRegex('/^(?:<script[^>]+><\\/script>\\n){1}$/');
+    }
 
     // check that nothing gets put in the done array
     $scripts->do_items('jquery', 0);
@@ -86,7 +94,9 @@ class SpeedMoveJqueryTest extends WP_UnitTestCase {
     $scripts->do_items('jquery', 1);
     $this->assertContains('jquery', $scripts->done);
     $this->assertContains('jquery-core', $scripts->done);
-    $this->assertContains('jquery-migrate', $scripts->done);
+    if ($minor !== '5.5') {
+      $this->assertContains('jquery-migrate', $scripts->done);
+    }
   }
 
 }
