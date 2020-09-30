@@ -122,3 +122,11 @@ Note that if you disable a feature, all underlying subfeatures will b
 
 == Installation ==
 Download and activate. That\'s it.
+
+== Changelog ==
+
+= 1.1 =
+Fixes to features along with more robust testing.
+
+= 1.0 =
+Initial release.
