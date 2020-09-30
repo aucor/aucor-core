@@ -33,7 +33,7 @@ class Aucor_Core_Speed_Limit_Revisions extends Aucor_Core_Sub_Feature {
    * @return int revision limit
    */
   public static function aucor_core_limit_revision_number($number, $post_id) {
-    return 5;
+    return 10;
   }
 
 }

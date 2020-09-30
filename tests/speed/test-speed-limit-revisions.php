@@ -48,12 +48,12 @@ class SpeedLimitRevisionsTest extends WP_UnitTestCase {
     // AUCOR_CORE_LIMIT_REVISION_NUMBER()
 
     // mock args
-    $number = 10;
+    $number = 20;
     $post_id = 1;
 
     // check that the callback function returns correct values
     $this->assertSame(
-      5, $class->aucor_core_limit_revision_number($number, $post_id)
+      10, $class->aucor_core_limit_revision_number($number, $post_id)
     );
   }
 
