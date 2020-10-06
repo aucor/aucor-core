@@ -126,6 +126,9 @@ Download and activate. That's it.
 
 == Changelog ==
 
+= 1.1.4 =
+Revert main file to "plugin.php" and add fallback to "aucor-core.php" for any sites activated during renamed version.
+
 = 1.1.3 =
 Fix issue with renaming plugin.php that caused fatal error on update.
 
