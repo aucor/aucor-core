@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:    Aucor Core
- * Description:    The Aucor brand's core functionality
- * Version:        1.1
+ * Description:    Core functionality to Aucor Starter powered sites
+ * Version:        1.1.3
  * Author:         Aucor Oy
  * Author URI:     https://www.aucor.fi
  * Text Domain:    aucor-core

@@ -126,6 +126,9 @@ Download and activate. That's it.
 
 == Changelog ==
 
+= 1.1.3 =
+Fix issue with renaming plugin.php that caused fatal error on update.
+
 = 1.1.1 =
 Readme update, testing up to latest WP version.
 
