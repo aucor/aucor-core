@@ -90,6 +90,11 @@ if ($instance->is_active()) :
       return aucor_core_get_site_locale();
     }
   }
+  if (!function_exists('pll_default_language')) {
+    function pll_default_language() {
+      return aucor_core_get_site_locale();
+    }
+  }
   if (!function_exists('pll_get_post_language')) {
     function pll_get_post_language($id) {
       return aucor_core_get_site_locale();
