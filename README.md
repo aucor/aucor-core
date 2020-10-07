@@ -103,3 +103,9 @@ add_filter('feature or subfeature key', '__return_false');
 Put this snippet in a file called plugin.php, in a directory named [YOUR PLUGIN NAME], and place the directory under the /plugins/ directory with your other plugins.
 
 Note that if you disable a feature, all underlying subfeatures will be disabled as well.
+
+### What's the deal with "Aucor Core (Backwards Compatibility, Do Not Delete)"
+
+The plugin's main file was plugin.php but it was renamed to aucor-core.php and there was period until it was noticed that this did cause major issues while updating the plugin as WP deactivates the plugin if it cannot find the plugin main file (that it saves in database when activating plugin). Main file is reverted back to plugin.php but there are probably still some sites that have been activated with aucor-core.php and this file provides backwards compatibility for those.
+
+This is just for old sites that used the renamed plugin file and running it just includes the right plugin file and changes active plugin file to database and deactivates that file. Even if both files are running (via mu-plugins) no harm is done. You cannot delete this file as it will delete the whole plugin. This is temporary migration period (maybe 1-2 years) to get all the sites on board after it can be removed.

@@ -126,6 +126,9 @@ Download and activate. That's it.
 
 == Changelog ==
 
+= 1.1.4 =
+Revert main file to "plugin.php" and add fallback to "aucor-core.php" for any sites activated during renamed version. There is duplicate plugin entry in plugins list with name "Aucor Core (Backwards Compatibility, Do Not Delete)". This is just for old sites that used the renamed plugin file and running it just includes the right plugin file and changes active plugin file to database and deactivates that file. Even if both files are running (via mu-plugins) no harm is done. You cannot delete this file as it will delete the whole plugin. This is temporary migration period (maybe 1-2 years) to get all the sites on board after it can be removed.
+
 = 1.1.3 =
 Fix issue with renaming plugin.php that caused fatal error on update.
 
