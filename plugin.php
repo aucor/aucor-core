@@ -13,6 +13,9 @@ define('AUCOR_CORE_DIR', plugins_url('', __FILE__));
 
 class Aucor_Core {
 
+  // var: active instance of class
+  private static $instance;
+
   // var: list of features in the plugin - array
   public $features;
 
@@ -117,11 +120,23 @@ class Aucor_Core {
     return $this->features;
   }
 
+  /**
+   * Get instance
+   */
+  public static function get_instance() {
+
+    if (!isset(self::$instance)) {
+      self::$instance = new Aucor_Core();
+    }
+    return self::$instance;
+
+  }
+
 }
 
 // init
 add_action('plugins_loaded', function() {
-  $aucor_core = new Aucor_Core;
+  $aucor_core = Aucor_Core::get_instance();
 });
 
 // load translations
