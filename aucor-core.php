@@ -26,19 +26,38 @@ require_once 'plugin.php';
  * Auto-migrate active plugin data in DB to stop
  * using "aucor-core.php" and prefer "plugin.php"
  */
-$active_plugins = is_multisite() ? get_site_option('active_plugins') : get_option('active_plugins');
-$active_plugins_changed = false;
 
-if (is_array($active_plugins) && !empty($active_plugins)) {
-  foreach ($active_plugins as $i => $name) {
-    if ($name == 'aucor-core/aucor-core.php') {
-      $active_plugins[$i] = 'aucor-core/plugin.php';
-      $active_plugins_changed = true;
+function aucor_core_migrate_active_plugin($active_plugins) {
+
+  $active_plugins_changed = false;
+  if (is_array($active_plugins) && !empty($active_plugins)) {
+    foreach ($active_plugins as $i => $name) {
+      if ($name == 'aucor-core/aucor-core.php') {
+        $active_plugins[$i] = 'aucor-core/plugin.php';
+        $active_plugins_changed = true;
+      }
+    }
+    // remove duplicate plugin activations
+    if ($active_plugins_changed) {
+      $active_plugins = array_unique($active_plugins);
     }
   }
-  if ($active_plugins_changed) {
-    // remove duplicate plugin activations
-    $active_plugins = array_unique($active_plugins);
-    $status = is_multisite() ? update_site_option('active_plugins', $active_plugins) : update_option('active_plugins', $active_plugins);
+  return $active_plugins;
+
+}
+
+$single_active_plugins = get_option('active_plugins');
+$single_clean_active_plugins = aucor_core_migrate_active_plugin($single_active_plugins);
+if ($single_active_plugins !== $single_clean_active_plugins) {
+  update_option('active_plugins', $single_clean_active_plugins);
+}
+
+if (is_multisite()) {
+  $network_active_plugins = get_site_option('active_plugins');
+  $network_clean_active_plugins = aucor_core_migrate_active_plugin($network_active_plugins);
+  if ($network_active_plugins !== $network_clean_active_plugins) {
+    update_site_option('active_plugins', $network_clean_active_plugins);
   }
 }
+
+
